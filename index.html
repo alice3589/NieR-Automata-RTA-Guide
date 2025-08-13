@@ -188,6 +188,15 @@ button:focus::before {
   width: 100%;
 }
 
+/* 縦並びのボタングループ */
+.vertical-buttons button {
+  display: block;
+}
+
+.vertical-buttons button + button {
+  margin-top: 0.6rem;
+}
+
 main {
   flex: 1;
 }
@@ -226,7 +235,10 @@ img {
   <div class="container">
     <div class="content">
       <p>NieR:Automataの初心者向けRTAのガイドです。</p>
-      <button type="button">テスト</button>
+      <div class="vertical-buttons">
+        <button type="button">テスト</button>
+        <button type="button">テスト2</button>
+      </div>
     </div>
     
     <div class="content">
