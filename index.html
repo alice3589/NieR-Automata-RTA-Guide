@@ -1,703 +1,245 @@
 <!DOCTYPE html>
 <html lang="ja">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>NieR:Automata RTA初心者ガイド</title>
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>NieR:Automata RTA Guide</title>
+<style>
+:root {
+  --bgColor: #C8C2AA;
+  --color: #4D493E;
+  --letterSpacing: 0.1rem;
+  --boxShadow: 3px 3px 0 rgba(77, 73, 62, 0.6);
+}
 
-        body {
-            font-family: 'Courier New', monospace;
-            background: linear-gradient(135deg, #d4c5a0 0%, #c9b99a 50%, #bfaf94 100%);
-            color: #4a4a4a;
-            min-height: 100vh;
-            overflow-x: hidden;
-            position: relative;
-        }
+*:focus {
+  outline: none !important;
+}
 
-        body::before {
-            content: '';
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-image: 
-                linear-gradient(45deg, transparent 40%, rgba(255,255,255,0.05) 50%, transparent 60%),
-                linear-gradient(-45deg, transparent 40%, rgba(255,255,255,0.05) 50%, transparent 60%);
-            background-size: 50px 50px;
-            pointer-events: none;
-            z-index: 1;
-        }
+body {
+  background-color: var(--bgColor);
+  background-size: 4px 4px;
+  background-image:
+    linear-gradient(90deg, transparent, transparent 3px, rgba(0,0,0,.07) 4px),
+    linear-gradient(transparent, transparent 3px, rgba(0,0,0,.07) 4px);
+  color: var(--color);
+  font-family: "Noto Sans", sans-serif;
+  font-weight: 300;
+  margin: 0;
+  min-height: 100vh;
+  box-shadow: inset 0 0 150px rgba(77, 73, 62, .4),
+              inset 0 0 150px rgba(77, 73, 62, .3);
+  display: flex;
+  flex-direction: column;
+  letter-spacing: var(--letterSpacing);
+}
 
-        .particles {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            pointer-events: none;
-            z-index: 2;
-        }
+.container {
+  padding: 0 4rem;
+}
 
-        .particle {
-            position: absolute;
-            width: 3px;
-            height: 3px;
-            background: #8b7355;
-            opacity: 0.3;
-            animation: float 10s infinite ease-in-out;
-        }
+header {
+  padding: 1rem 0;
+}
 
-        @keyframes float {
-            0%, 100% { transform: translateY(0px) rotate(0deg); opacity: 0.6; }
-            50% { transform: translateY(-20px) rotate(180deg); opacity: 1; }
-        }
+h1 {
+  text-transform: uppercase;
+  font-weight: 300;
+  letter-spacing: 0.7rem;
+  text-shadow: 0.3rem 0.3rem 0 rgba(77, 73, 62, .3);
+}
 
-        .container {
-            position: relative;
-            z-index: 10;
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 20px;
-        }
+h1 span {
+  margin-right: -0.7rem;
+  font-weight: 400;
+}
 
-        header {
-            text-align: center;
-            padding: 40px 0 30px;
-            position: relative;
-            border-bottom: 2px solid #8b7355;
-            margin-bottom: 30px;
-        }
+h1 small {
+  font-weight: 500;
+  text-transform: none;
+  text-shadow: none;
+  letter-spacing: var(--letterSpacing);
+}
 
-        h1 {
-            font-size: 2.5rem;
-            font-weight: normal;
-            margin-bottom: 10px;
-            color: #4a4a4a;
-            letter-spacing: 8px;
-            text-transform: uppercase;
-            font-family: 'Courier New', monospace;
-        }
+h1 small::before {
+  content: "–";
+  margin-right: 0.5rem;
+}
 
-        @keyframes glow {
-            from { filter: brightness(1); }
-            to { filter: brightness(1.1); }
-        }
+.pattern {
+  border-top: 2px solid var(--color);
+}
 
-        .subtitle {
-            font-size: 1rem;
-            color: #6b5d47;
-            margin-bottom: 20px;
-            font-weight: normal;
-            letter-spacing: 2px;
-            text-transform: uppercase;
-        }
+.pattern-inner {
+  height: 40px;
+  background-size: 50px 3px, 50px 1px, 50px 1px, 50px 1px, 50px 1px,
+                   50px 1px, 50px 1px, 50px 1px, 50px 1px;
+  background-position: 0 0,
+                       22px 4px, 22px 5px, 22px 6px, 22px 7px,
+                       28px 12px, 28px 13px, 28px 14px, 28px 15px;
+  background-image:
+    linear-gradient(90deg, var(--color), var(--color) 10px, transparent 10px),
+    linear-gradient(90deg, 
+      rgba(77, 73, 62, .4), rgba(77, 73, 62, .4) 1px, 
+      rgba(77, 73, 62, .8) 1px, rgba(77, 73, 62, .8) 2px, 
+      rgba(77, 73, 62, .9) 2px, rgba(77, 73, 62, .9) 3px, 
+      rgba(77, 73, 62, .4) 3px, rgba(77, 73, 62, .4) 4px, 
+      transparent 4px, transparent 12px,
+      rgba(77, 73, 62, .4) 12px, rgba(77, 73, 62, .4) 13px,
+      rgba(77, 73, 62, .8) 13px, rgba(77, 73, 62, .8) 14px, 
+      rgba(77, 73, 62, .9) 14px, rgba(77, 73, 62, .9) 15px, 
+      rgba(77, 73, 62, .4) 15px, rgba(77, 73, 62, .4) 16px,
+      transparent 16px),
+    linear-gradient(90deg, 
+      rgba(77, 73, 62, .9), rgba(77, 73, 62, .9) 1px, 
+      rgba(77, 73, 62, 1) 1px, rgba(77, 73, 62, 1) 2px, 
+      rgba(77, 73, 62, 1) 2px, rgba(77, 73, 62, 1) 3px, 
+      rgba(77, 73, 62, .9) 3px, rgba(77, 73, 62, .9) 4px, 
+      transparent 4px, transparent 12px,
+      rgba(77, 73, 62, .9) 12px, rgba(77, 73, 62, .9) 13px,
+      rgba(77, 73, 62, 1) 13px, rgba(77, 73, 62, 1) 14px, 
+      rgba(77, 73, 62, 1) 14px, rgba(77, 73, 62, 1) 15px, 
+      rgba(77, 73, 62, .9) 15px, rgba(77, 73, 62, .9) 16px,
+      transparent 16px),
+    linear-gradient(90deg, 
+      rgba(77, 73, 62, .9), rgba(77, 73, 62, .9) 1px, 
+      rgba(77, 73, 62, 1) 1px, rgba(77, 73, 62, 1) 2px, 
+      rgba(77, 73, 62, 1) 2px, rgba(77, 73, 62, 1) 3px, 
+      rgba(77, 73, 62, .9) 3px, rgba(77, 73, 62, .9) 4px, 
+      transparent 4px, transparent 12px,
+      rgba(77, 73, 62, .9) 12px, rgba(77, 73, 62, .9) 13px,
+      rgba(77, 73, 62, 1) 13px, rgba(77, 73, 62, 1) 14px, 
+      rgba(77, 73, 62, 1) 14px, rgba(77, 73, 62, 1) 15px, 
+      rgba(77, 73, 62, .9) 15px, rgba(77, 73, 62, .9) 16px,
+      transparent 16px),
+    linear-gradient(90deg, 
+      rgba(77, 73, 62, .4), rgba(77, 73, 62, .4) 1px, 
+      rgba(77, 73, 62, .8) 1px, rgba(77, 73, 62, .8) 2px, 
+      rgba(77, 73, 62, .9) 2px, rgba(77, 73, 62, .9) 3px, 
+      rgba(77, 73, 62, .4) 3px, rgba(77, 73, 62, .4) 4px, 
+      transparent 4px, transparent 12px,
+      rgba(77, 73, 62, .4) 12px, rgba(77, 73, 62, .4) 13px,
+      rgba(77, 73, 62, .8) 13px, rgba(77, 73, 62, .8) 14px, 
+      rgba(77, 73, 62, .9) 14px, rgba(77, 73, 62, .9) 15px, 
+      rgba(77, 73, 62, .4) 15px, rgba(77, 73, 62, .4) 16px,
+      transparent 16px),
+    linear-gradient(90deg, 
+      rgba(77, 73, 62, .4), rgba(77, 73, 62, .4) 1px, 
+      rgba(77, 73, 62, .8) 1px, rgba(77, 73, 62, .8) 2px, 
+      rgba(77, 73, 62, .9) 2px, rgba(77, 73, 62, .9) 3px, 
+      rgba(77, 73, 62, .4) 3px, rgba(77, 73, 62, .4) 4px, 
+      transparent 4px),
+    linear-gradient(90deg, 
+      rgba(77, 73, 62, .9), rgba(77, 73, 62, .9) 1px, 
+      rgba(77, 73, 62, 1) 1px, rgba(77, 73, 62, 1) 2px, 
+      rgba(77, 73, 62, 1) 2px, rgba(77, 73, 62, 1) 3px, 
+      rgba(77, 73, 62, .9) 3px, rgba(77, 73, 62, .9) 4px, 
+      transparent 4px),
+    linear-gradient(90deg, 
+      rgba(77, 73, 62, .9), rgba(77, 73, 62, .9) 1px, 
+      rgba(77, 73, 62, 1) 1px, rgba(77, 73, 62, 1) 2px, 
+      rgba(77, 73, 62, 1) 2px, rgba(77, 73, 62, 1) 3px, 
+      rgba(77, 73, 62, .9) 3px, rgba(77, 73, 62, .9) 4px, 
+      transparent 4px),
+    linear-gradient(90deg, 
+      rgba(77, 73, 62, .4), rgba(77, 73, 62, .4) 1px, 
+      rgba(77, 73, 62, .8) 1px, rgba(77, 73, 62, .8) 2px, 
+      rgba(77, 73, 62, .9) 2px, rgba(77, 73, 62, .9) 3px, 
+      rgba(77, 73, 62, .4) 3px, rgba(77, 73, 62, .4) 4px, 
+      transparent 4px);
+  background-repeat: repeat-x;
+}
 
-        .nav-tabs {
-            display: flex;
-            justify-content: center;
-            gap: 0;
-            margin-bottom: 30px;
-            flex-wrap: wrap;
-            border: 2px solid #8b7355;
-            background: rgba(139, 115, 85, 0.1);
-        }
+button {
+  cursor: pointer;
+  font: inherit;
+  border: none;
+  padding: 0.4rem 1rem;
+  background-color: rgba(77, 73, 62, 0.35);
+  color: var(--color);
+  position: relative;
+  border: 1px solid transparent;
+  border-left: none;
+  border-right: none;
+  transition: background-color 0.2s, color 0.2s;
+}
 
-        .tab-button {
-            background: transparent;
-            border: none;
-            border-right: 1px solid #8b7355;
-            color: #4a4a4a;
-            padding: 15px 20px;
-            cursor: pointer;
-            transition: all 0.2s ease;
-            font-size: 0.9rem;
-            font-weight: normal;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            font-family: 'Courier New', monospace;
-            position: relative;
-        }
+button::before {
+  content: "";
+  position: absolute;
+  z-index: -1;
+  left: 0;
+  top: 3px;
+  bottom: 3px;
+  width: 0;
+  background-color: var(--color);
+  transition: width 0.2s;
+}
 
-        .tab-button:last-child {
-            border-right: none;
-        }
+button:hover,
+button:focus {
+  background-color: transparent;
+  color: var(--bgColor);
+  border-color: var(--color);
+}
 
-        .tab-button:hover {
-            background: rgba(139, 115, 85, 0.2);
-        }
+button:hover::before,
+button:focus::before {
+  width: 100%;
+}
 
-        .tab-button.active {
-            background: #8b7355;
-            color: #d4c5a0;
-        }
+main {
+  flex: 1;
+}
 
-        .tab-content {
-            display: none;
-            animation: fadeIn 0.5s ease-in-out;
-        }
+.content {
+  padding-left: 4rem;
+  background-image: linear-gradient(90deg, rgba(77, 73, 62, .2), rgba(77, 73, 62, .2) 14px, 
+    transparent 14px, transparent 20px,
+    rgba(77, 73, 62, .2) 20px, rgba(77, 73, 62, .2) 23px, transparent 23px);
+  margin-bottom: 2rem;
+}
 
-        .tab-content.active {
-            display: block;
-        }
-
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        .card {
-            background: rgba(255, 255, 255, 0.6);
-            border: 2px solid #8b7355;
-            padding: 25px;
-            margin-bottom: 20px;
-            transition: all 0.2s ease;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .card::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(139, 115, 85, 0.1), transparent);
-            transition: left 0.3s;
-        }
-
-        .card:hover::before {
-            left: 100%;
-        }
-
-        .card:hover {
-            background: rgba(255, 255, 255, 0.8);
-            border-color: #6b5d47;
-        }
-
-        .card h3 {
-            color: #4a4a4a;
-            margin-bottom: 15px;
-            font-size: 1.2rem;
-            font-weight: normal;
-            letter-spacing: 2px;
-            text-transform: uppercase;
-            border-bottom: 1px solid #8b7355;
-            padding-bottom: 8px;
-            font-family: 'Courier New', monospace;
-        }
-
-        .route-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 20px;
-            margin-top: 20px;
-        }
-
-        .route-card {
-            background: rgba(139, 115, 85, 0.1);
-            padding: 15px;
-            border: 1px solid #8b7355;
-            border-left: 4px solid #6b5d47;
-            transition: all 0.2s ease;
-            margin-bottom: 10px;
-        }
-
-        .route-card:hover {
-            background: rgba(139, 115, 85, 0.2);
-            border-left-color: #4a4a4a;
-        }
-
-        .route-card h4 {
-            color: #4a4a4a;
-            font-family: 'Courier New', monospace;
-            font-size: 1rem;
-            font-weight: normal;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            margin-bottom: 8px;
-        }
-
-        .timer {
-            background: rgba(255, 255, 255, 0.8);
-            padding: 20px;
-            text-align: center;
-            margin: 20px 0;
-            border: 3px solid #8b7355;
-        }
-
-        .timer-display {
-            font-size: 2.5rem;
-            font-weight: normal;
-            color: #4a4a4a;
-            font-family: 'Courier New', monospace;
-            margin-bottom: 15px;
-            letter-spacing: 3px;
-            background: rgba(139, 115, 85, 0.1);
-            padding: 10px;
-            border: 1px solid #8b7355;
-        }
-
-        .timer-controls {
-            display: flex;
-            justify-content: center;
-            gap: 15px;
-            flex-wrap: wrap;
-        }
-
-        .btn {
-            background: #8b7355;
-            border: 2px solid #6b5d47;
-            color: #d4c5a0;
-            padding: 10px 18px;
-            cursor: pointer;
-            font-size: 0.9rem;
-            transition: all 0.2s ease;
-            text-transform: uppercase;
-            font-weight: normal;
-            letter-spacing: 1px;
-            font-family: 'Courier New', monospace;
-            margin: 2px;
-        }
-
-        .btn:hover {
-            background: #6b5d47;
-            border-color: #4a4a4a;
-        }
-
-        .btn.secondary {
-            background: transparent;
-            color: #6b5d47;
-            border-color: #6b5d47;
-        }
-
-        .btn.secondary:hover {
-            background: #6b5d47;
-            color: #d4c5a0;
-        }
-
-        .btn.danger {
-            background: #8b5555;
-            border-color: #6b4444;
-            color: #d4c5a0;
-        }
-
-        .btn.danger:hover {
-            background: #6b4444;
-        }
-
-        .tips-list {
-            list-style: none;
-            padding: 0;
-        }
-
-        .tips-list li {
-            background: rgba(139, 115, 85, 0.1);
-            margin: 8px 0;
-            padding: 12px;
-            border-left: 3px solid #8b7355;
-            transition: all 0.2s ease;
-            border: 1px solid rgba(139, 115, 85, 0.3);
-            font-family: 'Courier New', monospace;
-            font-size: 0.9rem;
-        }
-
-        .tips-list li:hover {
-            background: rgba(139, 115, 85, 0.2);
-            border-left-color: #4a4a4a;
-        }
-
-        .progress-bar {
-            background: rgba(139, 115, 85, 0.2);
-            height: 8px;
-            overflow: hidden;
-            margin: 8px 0;
-            border: 1px solid #8b7355;
-        }
-
-        .progress-fill {
-            height: 100%;
-            background: #8b7355;
-            transition: width 0.3s ease;
-        }
-
-        .checkpoint {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 12px 15px;
-            background: rgba(139, 115, 85, 0.1);
-            margin: 5px 0;
-            border: 1px solid #8b7355;
-            transition: all 0.2s ease;
-            font-family: 'Courier New', monospace;
-            font-size: 0.9rem;
-        }
-
-        .checkpoint:hover {
-            background: rgba(139, 115, 85, 0.2);
-        }
-
-        .checkpoint-time {
-            color: #4a4a4a;
-            font-weight: normal;
-            font-family: 'Courier New', monospace;
-            letter-spacing: 1px;
-            background: rgba(139, 115, 85, 0.2);
-            padding: 2px 6px;
-            border: 1px solid #8b7355;
-        }
-
-        @media (max-width: 768px) {
-            h1 { font-size: 2.5rem; }
-            .nav-tabs { flex-direction: column; align-items: center; }
-            .card { padding: 20px; }
-            .timer-display { font-size: 2rem; }
-        }
-
-        .loading {
-            display: inline-block;
-            width: 20px;
-            height: 20px;
-            border: 3px solid #ecf0f1;
-            border-radius: 50%;
-            border-top-color: #2c3e50;
-            animation: spin 1s ease-in-out infinite;
-        }
-
-        @keyframes spin {
-            to { transform: rotate(360deg); }
-        }
-    </style>
+img {
+  box-shadow: var(--boxShadow);
+}
+</style>
 </head>
 <body>
-    <div class="particles" id="particles"></div>
-    
+
+<header>
+  <div class="pattern">
     <div class="container">
-        <header>
-            <h1>NieR:Automata RTA Guide</h1>
-            <p class="subtitle">初心者のためのRealTime Attack完全ガイド</p>
-        </header>
-
-        <nav class="nav-tabs">
-            <button class="tab-button active" onclick="showTab('basics')">基本情報</button>
-            <button class="tab-button" onclick="showTab('routes')">ルート解説</button>
-            <button class="tab-button" onclick="showTab('timer')">タイマー</button>
-            <button class="tab-button" onclick="showTab('tips')">攻略のコツ</button>
-            <button class="tab-button" onclick="showTab('resources')">リソース</button>
-        </nav>
-
-        <div id="basics" class="tab-content active">
-            <div class="card">
-                <h3>RTAとは？</h3>
-                <p>RTA（Real Time Attack）は、ゲームをできるだけ早くクリアすることを目指すプレイスタイルです。NieR:Automataでは複数のカテゴリーがあります。</p>
-            </div>
-
-            <div class="card">
-                <h3>主要カテゴリー</h3>
-                <div class="route-grid">
-                    <div class="route-card">
-                        <h4>Route A</h4>
-                        <p>2Bでのストーリークリア</p>
-                        <p><strong>目安タイム:</strong> 初心者 8-10時間</p>
-                    </div>
-                    <div class="route-card">
-                        <h4>Route A+B</h4>
-                        <p>2B + 9Sルートクリア</p>
-                        <p><strong>目安タイム:</strong> 初心者 12-15時間</p>
-                    </div>
-                    <div class="route-card">
-                        <h4>All Main Endings</h4>
-                        <p>A,B,C,D,Eエンドまで</p>
-                        <p><strong>目安タイム:</strong> 初心者 18-25時間</p>
-                    </div>
-                </div>
-            </div>
-
-            <div class="card">
-                <h3>必要な準備</h3>
-                <ul class="tips-list">
-                    <li>✅ ゲーム本体（PC版推奨）</li>
-                    <li>✅ タイマーソフト（LiveSplit等）</li>
-                    <li>✅ 基本的な操作の習得</li>
-                    <li>✅ ストーリーの理解</li>
-                    <li>✅ セーブ&ロード戦略の学習</li>
-                </ul>
-            </div>
-        </div>
-
-        <div id="routes" class="tab-content">
-            <div class="card">
-                <h3>Route A 攻略ポイント</h3>
-                <div class="checkpoint">
-                    <span>プロローグ</span>
-                    <span class="checkpoint-time">15-20分</span>
-                </div>
-                <div class="checkpoint">
-                    <span>砂漠エリア</span>
-                    <span class="checkpoint-time">45-60分</span>
-                </div>
-                <div class="checkpoint">
-                    <span>遊園地廃墟</span>
-                    <span class="checkpoint-time">30-40分</span>
-                </div>
-                <div class="checkpoint">
-                    <span>工場廃墟</span>
-                    <span class="checkpoint-time">25-35分</span>
-                </div>
-                <div class="checkpoint">
-                    <span>バンカー～エンディング</span>
-                    <span class="checkpoint-time">20-30分</span>
-                </div>
-            </div>
-
-            <div class="card">
-                <h3>重要なテクニック</h3>
-                <ul class="tips-list">
-                    <li><strong>セルフデストラクト:</strong> 移動時間短縮に使用</li>
-                    <li><strong>プラグインチップ最適化:</strong> 攻撃力とHPのバランス</li>
-                    <li><strong>武器強化:</strong> 必要最小限に抑える</li>
-                    <li><strong>サイドクエストスキップ:</strong> 必要なもの以外は無視</li>
-                    <li><strong>ルート最適化:</strong> 移動距離を最小化</li>
-                </ul>
-            </div>
-
-            <div class="card">
-                <h3>ボス戦略</h3>
-                <div class="route-grid">
-                    <div class="route-card">
-                        <h4>マルクス</h4>
-                        <p>開幕でPODプログラム使用</p>
-                        <p>レーザー攻撃のパターン覚える</p>
-                    </div>
-                    <div class="route-card">
-                        <h4>アダム&イブ</h4>
-                        <p>アダム戦は距離を保つ</p>
-                        <p>イブ戦は近距離コンボ</p>
-                    </div>
-                    <div class="route-card">
-                        <h4>エンゲルス</h4>
-                        <p>フライトユニット活用</p>
-                        <p>弱点部位を狙い撃ち</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <div id="timer" class="tab-content">
-            <div class="card">
-                <h3>練習用タイマー</h3>
-                <div class="timer">
-                    <div class="timer-display" id="timerDisplay">00:00:00</div>
-                    <div class="timer-controls">
-                        <button class="btn" onclick="startTimer()">スタート</button>
-                        <button class="btn secondary" onclick="pauseTimer()">一時停止</button>
-                        <button class="btn danger" onclick="resetTimer()">リセット</button>
-                        <button class="btn secondary" onclick="addSplit()">スプリット</button>
-                    </div>
-                </div>
-                
-                <div id="splits" class="card" style="display: none;">
-                    <h3>スプリットタイム</h3>
-                    <div id="splitsList"></div>
-                </div>
-            </div>
-        </div>
-
-        <div id="tips" class="tab-content">
-            <div class="card">
-                <h3>初心者向けのコツ</h3>
-                <ul class="tips-list">
-                    <li>🎮 <strong>基本操作の習熟:</strong> まずは普通にゲームをクリアして操作に慣れる</li>
-                    <li>⏱️ <strong>タイム計測:</strong> 最初は完走することを目標に</li>
-                    <li>📊 <strong>分析:</strong> 各セクションの時間を記録して改善点を見つける</li>
-                    <li>🎥 <strong>動画学習:</strong> 上級者のプレイ動画を参考にする</li>
-                    <li>💪 <strong>継続練習:</strong> 毎日少しずつでも練習を続ける</li>
-                </ul>
-            </div>
-
-            <div class="card">
-                <h3>よくある失敗と対策</h3>
-                <ul class="tips-list">
-                    <li>❌ <strong>道に迷う:</strong> → マップを覚える、ルートを事前に確認</li>
-                    <li>❌ <strong>ボス戦で時間ロス:</strong> → パターンを覚える、適切な装備</li>
-                    <li>❌ <strong>セーブし忘れ:</strong> → セーブポイントを意識する</li>
-                    <li>❌ <strong>プラグインチップ設定ミス:</strong> → 事前に最適な組み合わせを確認</li>
-                    <li>❌ <strong>集中力切れ:</strong> → 休憩を取る、短時間の練習から始める</li>
-                </ul>
-            </div>
-
-            <div class="card">
-                <h3>レベル別目標タイム</h3>
-                <div class="route-grid">
-                    <div class="route-card">
-                        <h4>初心者 (1回目)</h4>
-                        <p>Route A: 8-10時間</p>
-                        <p>完走を目標に</p>
-                    </div>
-                    <div class="route-card">
-                        <h4>中級者 (10回程度)</h4>
-                        <p>Route A: 6-7時間</p>
-                        <p>基本ルートを安定</p>
-                    </div>
-                    <div class="route-card">
-                        <h4>上級者 (50回以上)</h4>
-                        <p>Route A: 4-5時間</p>
-                        <p>最適化を追求</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <div id="resources" class="tab-content">
-            <div class="card">
-                <h3>おすすめツール</h3>
-                <ul class="tips-list">
-                    <li>🏃 <strong>LiveSplit:</strong> RTAタイマーの定番ソフト</li>
-                    <li>📺 <strong>OBS Studio:</strong> 配信・録画ソフト</li>
-                    <li>🎮 <strong>Input Display:</strong> コントローラー入力表示</li>
-                    <li>📊 <strong>SplitsIO:</strong> タイム管理・比較サイト</li>
-                    <li>🔧 <strong>Cheat Engine:</strong> 練習用（一部の用途）</li>
-                </ul>
-            </div>
-
-            <div class="card">
-                <h3>参考リンク</h3>
-                <ul class="tips-list">
-                    <li>🌐 <strong>Speedrun.com:</strong> 公式リーダーボード</li>
-                    <li>📖 <strong>攻略Wiki:</strong> 詳細な攻略情報</li>
-                    <li>💬 <strong>Discord:</strong> RTA コミュニティ</li>
-                    <li>📺 <strong>Twitch/YouTube:</strong> 配信・動画</li>
-                    <li>📝 <strong>Google スプレッドシート:</strong> ルート表・タイム管理</li>
-                </ul>
-            </div>
-
-            <div class="card">
-                <h3>コミュニティ</h3>
-                <p>NieR:AutomataのRTAコミュニティは初心者にも優しく、多くの人が質問に答えてくれます。わからないことがあれば気軽に質問してみましょう。</p>
-                <br>
-                <p>定期的にRTA大会やイベントも開催されているので、参加してモチベーションを維持するのもおすすめです。</p>
-            </div>
-        </div>
+      <div class="pattern-inner"></div>
     </div>
+  </div>
+  
+  <div class="container">
+    <h1>
+      <span>NieR:Automata RTA Guide</span>
+      <small>テスト</small>
+    </h1>
+  </div>
+</header>
 
-    <script>
-        // パーティクルエフェクト
-        function createParticles() {
-            const particleContainer = document.getElementById('particles');
-            for (let i = 0; i < 30; i++) {
-                const particle = document.createElement('div');
-                particle.className = 'particle';
-                particle.style.left = Math.random() * 100 + '%';
-                particle.style.top = Math.random() * 100 + '%';
-                particle.style.animationDelay = Math.random() * 10 + 's';
-                particle.style.animationDuration = (Math.random() * 5 + 8) + 's';
-                particleContainer.appendChild(particle);
-            }
-        }
+<main>
+  <div class="container">
+    <div class="content">
+      <p>NieR:Automataの初心者向けRTAのガイドです。</p>
+      <button type="button">テスト</button>
+    </div>
+    
+    <div class="content">
+      <img src="https://basic-tutorials.de/wp-content/uploads/2016/08/NieR-Automata-Logo.jpg" width="300px">
+    </div>
+  </div>
+</main>
 
-        // タブ切り替え
-        function showTab(tabName) {
-            // すべてのタブコンテンツを非表示
-            const tabContents = document.querySelectorAll('.tab-content');
-            tabContents.forEach(content => {
-                content.classList.remove('active');
-            });
+<div class="pattern">
+  <div class="container">
+    <div class="pattern-inner"></div>
+  </div>
+</div>
 
-            // すべてのタブボタンを非アクティブ
-            const tabButtons = document.querySelectorAll('.tab-button');
-            tabButtons.forEach(button => {
-                button.classList.remove('active');
-            });
-
-            // 選択されたタブを表示
-            document.getElementById(tabName).classList.add('active');
-            
-            // 対応するボタンをアクティブに
-            event.target.classList.add('active');
-        }
-
-        // タイマー機能
-        let startTime = 0;
-        let elapsedTime = 0;
-        let timerInterval = null;
-        let isRunning = false;
-        let splits = [];
-
-        function formatTime(ms) {
-            const hours = Math.floor(ms / (1000 * 60 * 60));
-            const minutes = Math.floor((ms % (1000 * 60 * 60)) / (1000 * 60));
-            const seconds = Math.floor((ms % (1000 * 60)) / 1000);
-            
-            return `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
-        }
-
-        function updateTimer() {
-            const currentTime = Date.now();
-            elapsedTime = currentTime - startTime;
-            document.getElementById('timerDisplay').textContent = formatTime(elapsedTime);
-        }
-
-        function startTimer() {
-            if (!isRunning) {
-                startTime = Date.now() - elapsedTime;
-                timerInterval = setInterval(updateTimer, 100);
-                isRunning = true;
-            }
-        }
-
-        function pauseTimer() {
-            if (isRunning) {
-                clearInterval(timerInterval);
-                isRunning = false;
-            }
-        }
-
-        function resetTimer() {
-            clearInterval(timerInterval);
-            isRunning = false;
-            elapsedTime = 0;
-            splits = [];
-            document.getElementById('timerDisplay').textContent = '00:00:00';
-            document.getElementById('splits').style.display = 'none';
-            document.getElementById('splitsList').innerHTML = '';
-        }
-
-        function addSplit() {
-            if (isRunning || elapsedTime > 0) {
-                const splitTime = elapsedTime;
-                const splitNumber = splits.length + 1;
-                splits.push(splitTime);
-                
-                const splitsContainer = document.getElementById('splitsList');
-                const splitElement = document.createElement('div');
-                splitElement.className = 'checkpoint';
-                splitElement.innerHTML = `
-                    <span>Split ${splitNumber}</span>
-                    <span class="checkpoint-time">${formatTime(splitTime)}</span>
-                `;
-                splitsContainer.appendChild(splitElement);
-                
-                document.getElementById('splits').style.display = 'block';
-            }
-        }
-
-        // 初期化
-        window.onload = function() {
-            createParticles();
-        };
-
-        // レスポンシブナビゲーション（モバイル対応）
-        window.addEventListener('resize', function() {
-            // モバイルでの表示調整などはここに追加
-        });
-    </script>
 </body>
 </html>
