@@ -154,7 +154,7 @@ button {
   cursor: pointer;
   font: inherit;
   border: none;
-  padding: 0.4rem 1rem;
+  padding: 0.4rem 1rem 0.4rem 2rem;
   background-color: rgba(77, 73, 62, 0.35);
   color: var(--color);
   position: relative;
@@ -176,6 +176,19 @@ button::before {
   transition: width 0.2s;
 }
 
+button::after {
+  content: "";
+  position: absolute;
+  left: 0.6rem;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 0.8rem;
+  height: 0.8rem;
+  border: 2px solid var(--color);
+  background-color: transparent;
+  transition: background-color 0.2s, border-color 0.2s;
+}
+
 button:hover,
 button:focus {
   background-color: transparent;
@@ -186,6 +199,12 @@ button:focus {
 button:hover::before,
 button:focus::before {
   width: 100%;
+}
+
+button:hover::after,
+button:focus::after {
+  background-color: var(--bgColor);
+  border-color: var(--bgColor);
 }
 
 /* 縦並びのボタングループ */
