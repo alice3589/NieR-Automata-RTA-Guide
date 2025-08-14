@@ -237,6 +237,83 @@ main {
 img {
   box-shadow: var(--boxShadow);
 }
+
+/* 中央パネル */
+.overlay {
+  position: fixed;
+  left: 0;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.1);
+  backdrop-filter: blur(1px);
+}
+
+.panel {
+  position: fixed;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  width: min(720px, 90vw);
+  max-height: 70vh;
+  background: rgba(255, 255, 255, 0.35);
+  border: 1px solid var(--color);
+  box-shadow: var(--boxShadow);
+  overflow: auto;
+}
+
+.panel-header {
+  position: sticky;
+  top: 0;
+  background: rgba(77, 73, 62, 0.25);
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  padding: 0.6rem 0.8rem;
+  border-bottom: 1px solid var(--color);
+}
+
+.panel-header h2 {
+  margin: 0;
+  font-weight: 500;
+  letter-spacing: var(--letterSpacing);
+}
+
+.panel-header .square {
+  width: 0.8rem;
+  height: 0.8rem;
+  background: var(--color);
+  border: 2px solid var(--color);
+}
+
+.panel-close {
+  margin-left: auto;
+  background: transparent;
+  color: var(--color);
+  padding: 0.2rem 0.5rem;
+  border: none;
+  font-size: 1.1rem;
+  line-height: 1;
+  cursor: pointer;
+}
+
+.panel-body {
+  padding: 1rem;
+}
+
+.panel-list button {
+  display: block;
+  width: 100%;
+  text-align: left;
+}
+
+.panel-list button + button {
+  margin-top: 0.6rem;
+}
+
+.hidden {
+  display: none !important;
+}
 </style>
 </head>
 <body>
@@ -261,7 +338,7 @@ img {
     <div class="content">
       <p>NieR:Automataの初心者向けRTAのガイドです。</p>
       <div class="vertical-buttons">
-        <button type="button">初心者ガイド</button>
+        <button id="btn-beginner" type="button">初心者ガイド</button>
         <button type="button">カテゴリ解説</button>
         <button type="button">環境・ツール</button>
       </div>
@@ -282,6 +359,62 @@ img {
     <div class="pattern-inner"></div>
   </div>
 </div>
+
+<!-- 中央パネル（初心者ガイド） -->
+<div id="panel-beginner" class="hidden">
+  <div class="overlay"></div>
+  <div class="panel" role="dialog" aria-modal="true" aria-labelledby="panel-beginner-title">
+    <div class="panel-header">
+      <div class="square" aria-hidden="true"></div>
+      <h2 id="panel-beginner-title">初心者ガイド</h2>
+      <button type="button" class="panel-close" aria-label="閉じる">×</button>
+    </div>
+    <div class="panel-body">
+      <div class="panel-list">
+        <button type="button">ゲームの基本操作</button>
+        <button type="button">設定・画面調整</button>
+        <button type="button">初心者向けルート</button>
+        <button type="button">用語集</button>
+      </div>
+    </div>
+  </div>
+  </div>
+
+<script>
+  (function() {
+    var root = document.documentElement;
+    var openBtn = document.getElementById('btn-beginner');
+    var panel = document.getElementById('panel-beginner');
+    var overlay;
+    var closeBtn;
+
+    function openPanel() {
+      panel.classList.remove('hidden');
+      overlay = panel.querySelector('.overlay');
+      closeBtn = panel.querySelector('.panel-close');
+
+      function onClose() { closePanel(); }
+      overlay.addEventListener('click', onClose, { once: true });
+      closeBtn.addEventListener('click', onClose, { once: true });
+      document.addEventListener('keydown', escHandler);
+    }
+
+    function closePanel() {
+      panel.classList.add('hidden');
+      document.removeEventListener('keydown', escHandler);
+    }
+
+    function escHandler(e) {
+      if (e.key === 'Escape') {
+        closePanel();
+      }
+    }
+
+    if (openBtn) {
+      openBtn.addEventListener('click', openPanel);
+    }
+  })();
+</script>
 
 </body>
 </html>
