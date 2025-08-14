@@ -210,6 +210,11 @@ button:focus::after {
 /* 縦並びのボタングループ */
 .vertical-buttons button {
   display: block;
+  width: 260px; /* 固定幅 */
+  box-sizing: border-box;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .vertical-buttons button + button {
