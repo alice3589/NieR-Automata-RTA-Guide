@@ -254,40 +254,74 @@ img {
   left: 50%;
   top: 50%;
   transform: translate(-50%, -50%);
-  width: min(720px, 90vw);
-  max-height: 70vh;
-  background: rgba(255, 255, 255, 0.35);
-  border: 1px solid var(--color);
-  box-shadow: var(--boxShadow);
-  overflow: auto;
-}
-
-.panel-header {
-  position: sticky;
-  top: 0;
-  background: rgba(77, 73, 62, 0.25);
-  display: flex;
-  align-items: center;
-  gap: 0.6rem;
-  padding: 0.6rem 0.8rem;
-  border-bottom: 1px solid var(--color);
-}
-
-.panel-header h2 {
-  margin: 0;
-  font-weight: 500;
-  letter-spacing: var(--letterSpacing);
-}
-
-.panel-header .square {
-  width: 0.8rem;
-  height: 0.8rem;
-  background: var(--color);
+  width: min(600px, 85vw);
+  background: var(--bgColor);
   border: 2px solid var(--color);
+  box-shadow: var(--boxShadow);
+  display: flex;
+  gap: 0;
+}
+
+.panel-left {
+  width: 200px;
+  background: rgba(77, 73, 62, 0.6);
+  border-right: 2px solid var(--color);
+  padding: 1rem 0;
+}
+
+.panel-left h3 {
+  margin: 0 0 1rem 0;
+  padding: 0 1rem;
+  font-weight: 500;
+  font-size: 0.9rem;
+  letter-spacing: var(--letterSpacing);
+  color: var(--bgColor);
+}
+
+.panel-left .category {
+  display: block;
+  width: 100%;
+  background: rgba(77, 73, 62, 0.8);
+  color: var(--bgColor);
+  border: none;
+  padding: 0.5rem 1rem;
+  text-align: left;
+  font: inherit;
+  cursor: pointer;
+  border-bottom: 1px solid rgba(77, 73, 62, 0.3);
+}
+
+.panel-left .category.active {
+  background: var(--color);
+  color: var(--bgColor);
+}
+
+.panel-left .category:hover {
+  background: rgba(77, 73, 62, 0.9);
+}
+
+.panel-left .category.active:hover {
+  background: var(--color);
+}
+
+.panel-right {
+  flex: 1;
+  padding: 1rem;
+  background: var(--bgColor);
+}
+
+.panel-right h3 {
+  margin: 0 0 1rem 0;
+  font-weight: 500;
+  font-size: 0.9rem;
+  letter-spacing: var(--letterSpacing);
+  color: rgba(77, 73, 62, 0.7);
 }
 
 .panel-close {
-  margin-left: auto;
+  position: absolute;
+  top: 0.5rem;
+  right: 0.5rem;
   background: transparent;
   color: var(--color);
   padding: 0.2rem 0.5rem;
@@ -295,20 +329,34 @@ img {
   font-size: 1.1rem;
   line-height: 1;
   cursor: pointer;
-}
-
-.panel-body {
-  padding: 1rem;
+  z-index: 10;
 }
 
 .panel-list button {
   display: block;
   width: 100%;
   text-align: left;
+  margin-bottom: 0.4rem;
+  padding: 0.3rem 1.5rem 0.3rem 1.8rem;
+  background: rgba(77, 73, 62, 0.2);
+  border: 1px solid transparent;
+  position: relative;
 }
 
-.panel-list button + button {
-  margin-top: 0.6rem;
+.panel-list button::before {
+  content: "";
+  position: absolute;
+  left: 0.5rem;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 0.6rem;
+  height: 0.6rem;
+  background: var(--color);
+  border: 1px solid var(--color);
+}
+
+.panel-list button:hover {
+  background: rgba(77, 73, 62, 0.3);
 }
 
 .hidden {
@@ -364,12 +412,16 @@ img {
 <div id="panel-beginner" class="hidden">
   <div class="overlay"></div>
   <div class="panel" role="dialog" aria-modal="true" aria-labelledby="panel-beginner-title">
-    <div class="panel-header">
-      <div class="square" aria-hidden="true"></div>
-      <h2 id="panel-beginner-title">初心者ガイド</h2>
-      <button type="button" class="panel-close" aria-label="閉じる">×</button>
+    <button type="button" class="panel-close" aria-label="閉じる">×</button>
+    
+    <div class="panel-left">
+      <h3>初心者ガイド</h3>
+      <button type="button" class="category active">基本操作</button>
+      <button type="button" class="category">設定・調整</button>
     </div>
-    <div class="panel-body">
+    
+    <div class="panel-right">
+      <h3>詳細項目</h3>
       <div class="panel-list">
         <button type="button">ゲームの基本操作</button>
         <button type="button">設定・画面調整</button>
@@ -378,7 +430,7 @@ img {
       </div>
     </div>
   </div>
-  </div>
+</div>
 
 <script>
   (function() {
