@@ -168,7 +168,6 @@ img { box-shadow: var(--boxShadow); }
   display:flex; flex-direction:column;
 }
 .video-card .media{
-  /* “画像のような大きなパネル” */
   position:relative;
   background: rgba(77,73,62,.25);
   margin: 1rem;
@@ -189,27 +188,16 @@ img { box-shadow: var(--boxShadow); }
 }
 .video-card .desc{ font-size: .95rem; }
 .video-card .count{ font-size: .95rem; }
-/* ▼動画リスト選択時も文字色は固定（YoRHa色のまま） */
+
+/* ▼選択時も文字色は固定（YoRHa色のまま） */
 .video-list .vbtn,
 .video-list .vbtn:hover,
 .video-list .vbtn:focus,
-.video-list .vbtn[aria-selected="true"] {
-  color: var(--color);
-}
-
-/* vbtnは共通ボタンの装飾を無効化（色反転や四角マークを消す） */
-.video-list .vbtn::before,
-.video-list .vbtn::after {
-  content: none;
-}
-
-.video-list .vbtn:hover {            /* 文字色はそのまま、背景だけ薄く */
-  background: rgba(77, 73, 62, .10);
-}
-.video-list .vbtn[aria-selected="true"] { /* 選択中の背景 */
-  background: rgba(77, 73, 62, .12);
-}
-
+.video-list .vbtn[aria-selected="true"] { color: var(--color); }
+/* vbtnは共通ボタンの装飾を無効化（色反転や四角を消す） */
+.video-list .vbtn::before, .video-list .vbtn::after { content: none; }
+.video-list .vbtn:hover { background: rgba(77, 73, 62, .10); }
+.video-list .vbtn[aria-selected="true"] { background: rgba(77, 73, 62, .12); }
 </style>
 </head>
 <body>
@@ -283,19 +271,58 @@ img { box-shadow: var(--boxShadow); }
 
 <script>
 (function () {
+  // ===== 共通：動画停止ユーティリティ =====
+  function stopEmbeddedVideos(panelEl){
+    const iframes = panelEl.querySelectorAll('iframe');
+    iframes.forEach((ifr)=>{
+      // YouTubeに停止コマンド
+      try {
+        ifr.contentWindow?.postMessage(
+          JSON.stringify({ event: "command", func: "stopVideo", args: "" }),
+          "*"
+        );
+      } catch(e) {}
+      // フォールバック（完全停止）
+      ifr.src = "";
+    });
+  }
+
   // ===== 汎用：パネルの開閉 =====
   function bindPanel(panelEl) {
     const overlay = panelEl.querySelector('.overlay');
     const closeBtn = panelEl.querySelector('.panel-close');
-    const escHandler = (e)=>{ if(e.key==='Escape') hidePanel(panelEl); };
+
+    const escHandler = (e)=>{
+      if(e.key==='Escape'){
+        stopEmbeddedVideos(panelEl);
+        hidePanel(panelEl);
+      }
+    };
     panelEl._esc = escHandler;
-    overlay.addEventListener('click', ()=> hidePanel(panelEl));
-    closeBtn.addEventListener('click', ()=> hidePanel(panelEl));
+
+    overlay.addEventListener('click', ()=>{
+      stopEmbeddedVideos(panelEl);
+      hidePanel(panelEl);
+    });
+    closeBtn.addEventListener('click', ()=>{
+      stopEmbeddedVideos(panelEl);
+      hidePanel(panelEl);
+    });
   }
+
   function showPanel(panelEl) {
     panelEl.classList.remove('hidden');
     document.addEventListener('keydown', panelEl._esc);
+
+    // 動画パネルを再オープンしたとき、srcが空なら現在選択の動画を停止状態で復元
+    if (panelEl.id === 'panel-video') {
+      const frame = document.getElementById('yt-frame');
+      if (!frame.src) {
+        selectVideo(currentIndex >= 0 ? currentIndex : 0, /*autoplay*/false);
+      }
+    }
   }
+
   function hidePanel(panelEl) {
     panelEl.classList.add('hidden');
     document.removeEventListener('keydown', panelEl._esc);
@@ -309,7 +336,6 @@ img { box-shadow: var(--boxShadow); }
   document.getElementById('btn-beginner')?.addEventListener('click', ()=> showPanel(beginnerPanel));
 
   // ===== 動画セレクター =====
-  // ★ここを自分の動画に差し替えてください（YouTubeの「ID」だけ書く）★
   const videos = [
     { id: "IKWAp2eXxsA", title: "プロローグ", desc: "プロローグの基本的な動きを解説。"},
     { id: "nJthTXdTgyY", title: "バンカー～砂漠終了", desc: "廃墟都市から砂漠終わりまでの動きを解説。"},
@@ -318,7 +344,7 @@ img { box-shadow: var(--boxShadow); }
     { id: "h-c43XfRxUQ", title: "複製された街～工場廃墟終了", desc: "いい感じの言葉を入れる"},
     { id: "nkOJ3OriYlE", title: "flowers for m[A]chines", desc: "いい感じの言葉を入れる"},
   ];
-  // ====== UI構築 ======
+
   const listEl = document.getElementById('video-list');
   const frameEl = document.getElementById('yt-frame');
   const descEl  = document.getElementById('video-desc');
@@ -342,13 +368,17 @@ img { box-shadow: var(--boxShadow); }
   function selectVideo(index, autoplay=false){
     if(index === currentIndex) return;
     currentIndex = index;
+
     // list highlight
     [...listEl.querySelectorAll('.vbtn')].forEach((b, i)=>{
       b.setAttribute('aria-selected', String(i===index));
     });
+
     // set video
     const v = videos[index];
-    const params = autoplay ? "?autoplay=1&rel=0&modestbranding=1" : "?rel=0&modestbranding=1";
+    const params = autoplay
+      ? "?autoplay=1&rel=0&modestbranding=1&enablejsapi=1"
+      : "?rel=0&modestbranding=1&enablejsapi=1";
     frameEl.src = `https://www.youtube.com/embed/${v.id}${params}`;
     frameEl.title = v.title;
     descEl.textContent = v.desc || "";
