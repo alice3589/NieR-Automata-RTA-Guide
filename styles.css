@@ -183,3 +183,21 @@ img{ box-shadow:var(--boxShadow); }
 @supports (padding: max(0px)) {
   body { padding-left: max(0px, env(safe-area-inset-left)); padding-right: max(0px, env(safe-area-inset-right)); }
 }
+
+/* メインメニュー（初心者ガイド / カテゴリ解説 / 環境・ツール）を縦並びに */
+.vertical-buttons{
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;   /* ボタン幅をそろえる */
+  gap: .6rem;             /* ボタン間の余白 */
+  max-width: 420px;       /* 好みで調整。フル幅にしたい場合は削除 */
+}
+
+.vertical-buttons button{
+  display: block;
+  width: 100%;            /* 行幅いっぱい */
+  text-align: left;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis; /* ボタン名が長い時は省略表示 */
+}
