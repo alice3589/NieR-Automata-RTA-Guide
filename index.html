@@ -1,209 +1,19 @@
 <!DOCTYPE html>
 <html lang="ja">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>NieR:Automata RTA Guide</title>
-<style>
-:root {
-  --bgColor: #C8C2AA;
-  --color: #4D493E;
-  --letterSpacing: 0.1rem;
-  --boxShadow: 3px 3px 0 rgba(77, 73, 62, 0.6);
-}
-*:focus { outline: none !important; }
-body {
-  background-color: var(--bgColor);
-  background-size: 4px 4px;
-  background-image:
-    linear-gradient(90deg, transparent, transparent 3px, rgba(0,0,0,.07) 4px),
-    linear-gradient(transparent, transparent 3px, rgba(0,0,0,.07) 4px);
-  color: var(--color);
-  font-family: "Noto Sans", sans-serif;
-  font-weight: 300;
-  margin: 0; min-height: 100vh;
-  box-shadow: inset 0 0 150px rgba(77, 73, 62, .4),
-              inset 0 0 150px rgba(77, 73, 62, .3);
-  display: flex; flex-direction: column;
-  letter-spacing: var(--letterSpacing);
-}
-.container { padding: 0 4rem; }
-header { padding: 1rem 0; }
-h1 { text-transform: uppercase; font-weight: 300; letter-spacing: .7rem;
-  text-shadow: .3rem .3rem 0 rgba(77, 73, 62, .3);}
-h1 span { margin-right: -.7rem; font-weight: 400; }
-h1 small { font-weight: 500; text-transform:none; text-shadow:none; letter-spacing: var(--letterSpacing); }
-h1 small::before { content:"–"; margin-right:.5rem; }
-
-.pattern { border-top: 2px solid var(--color); }
-.pattern-inner{
-  height:40px;
-  background-size: 50px 3px, 50px 1px, 50px 1px, 50px 1px, 50px 1px,
-                   50px 1px, 50px 1px, 50px 1px, 50px 1px;
-  background-position: 0 0,
-    22px 4px,22px 5px,22px 6px,22px 7px,28px 12px,28px 13px,28px 14px,28px 15px;
-  background-image:
-    linear-gradient(90deg, var(--color), var(--color) 10px, transparent 10px),
-    linear-gradient(90deg, rgba(77,73,62,.4), rgba(77,73,62,.4) 1px,
-      rgba(77,73,62,.8) 1px, rgba(77,73,62,.8) 2px,
-      rgba(77,73,62,.9) 2px, rgba(77,73,62,.9) 3px,
-      rgba(77,73,62,.4) 3px, rgba(77,73,62,.4) 4px,
-      transparent 4px, transparent 12px,
-      rgba(77,73,62,.4) 12px, rgba(77,73,62,.4) 13px,
-      rgba(77,73,62,.8) 13px, rgba(77,73,62,.8) 14px,
-      rgba(77,73,62,.9) 14px, rgba(77,73,62,.9) 15px,
-      rgba(77,73,62,.4) 15px, rgba(77,73,62,.4) 16px, transparent 16px),
-    linear-gradient(90deg, rgba(77,73,62,.9), rgba(77,73,62,.9) 1px,
-      rgba(77,73,62,1) 1px, rgba(77,73,62,1) 2px, rgba(77,73,62,1) 2px,
-      rgba(77,73,62,1) 3px, rgba(77,73,62,.9) 3px, rgba(77,73,62,.9) 4px,
-      transparent 4px, transparent 12px, rgba(77,73,62,.9) 12px,
-      rgba(77,73,62,.9) 13px, rgba(77,73,62,1) 13px, rgba(77,73,62,1) 14px,
-      rgba(77,73,62,1) 14px, rgba(77,73,62,1) 15px, rgba(77,73,62,.9) 15px,
-      rgba(77,73,62,.9) 16px, transparent 16px),
-    linear-gradient(90deg, rgba(77,73,62,.9), rgba(77,73,62,.9) 1px,
-      rgba(77,73,62,1) 1px, rgba(77,73,62,1) 2px, rgba(77,73,62,1) 2px,
-      rgba(77,73,62,1) 3px, rgba(77,73,62,.9) 3px, rgba(77,73,62,.9) 4px,
-      transparent 4px, transparent 12px, rgba(77,73,62,.9) 12px,
-      rgba(77,73,62,.9) 13px, rgba(77,73,62,1) 13px, rgba(77,73,62,1) 14px,
-      rgba(77,73,62,1) 14px, rgba(77,73,62,1) 15px, rgba(77,73,62,.9) 15px,
-      rgba(77,73,62,.9) 16px, transparent 16px),
-    linear-gradient(90deg, rgba(77,73,62,.4), rgba(77,73,62,.4) 1px,
-      rgba(77,73,62,.8) 1px, rgba(77,73,62,.8) 2px, rgba(77,73,62,.9) 2px,
-      rgba(77,73,62,.9) 3px, rgba(77,73,62,.4) 3px, rgba(77,73,62,.4) 4px,
-      transparent 4px, transparent 12px, rgba(77,73,62,.4) 12px,
-      rgba(77,73,62,.4) 13px, rgba(77,73,62,.8) 13px, rgba(77,73,62,.8) 14px,
-      rgba(77,73,62,.9) 14px, rgba(77,73,62,.9) 15px, rgba(77,73,62,.4) 15px,
-      rgba(77,73,62,.4) 16px, transparent 16px),
-    linear-gradient(90deg, rgba(77,73,62,.4), rgba(77,73,62,.4) 1px,
-      rgba(77,73,62,.8) 1px, rgba(77,73,62,.8) 2px, rgba(77,73,62,.9) 2px,
-      rgba(77,73,62,.9) 3px, rgba(77,73,62,.4) 3px, rgba(77,73,62,.4) 4px,
-      transparent 4px),
-    linear-gradient(90deg, rgba(77,73,62,.9), rgba(77,73,62,.9) 1px,
-      rgba(77,73,62,1) 1px, rgba(77,73,62,1) 2px, rgba(77,73,62,1) 2px,
-      rgba(77,73,62,1) 3px, rgba(77,73,62,.9) 3px, rgba(77,73,62,.9) 4px,
-      transparent 4px),
-    linear-gradient(90deg, rgba(77,73,62,.9), rgba(77,73,62,.9) 1px,
-      rgba(77,73,62,1) 1px, rgba(77,73,62,1) 2px, rgba(77,73,62,1) 2px,
-      rgba(77,73,62,1) 3px, rgba(77,73,62,.9) 3px, rgba(77,73,62,.9) 4px,
-      transparent 4px),
-    linear-gradient(90deg, rgba(77,73,62,.4), rgba(77,73,62,.4) 1px,
-      rgba(77,73,62,.8) 1px, rgba(77,73,62,.8) 2px, rgba(77,73,62,.9) 2px,
-      rgba(77,73,62,.9) 3px, rgba(77,73,62,.4) 3px, rgba(77,73,62,.4) 4px,
-      transparent 4px);
-  background-repeat: repeat-x;
-}
-
-button {
-  cursor: pointer; font: inherit; border: none;
-  padding: .4rem 1rem .4rem 2rem;
-  background-color: rgba(77, 73, 62, 0.35);
-  color: var(--color); position: relative;
-  border: 1px solid transparent; border-left: none; border-right: none;
-  transition: background-color .2s, color .2s;
-}
-button::before{
-  content:""; position:absolute; z-index:-1; left:0; top:3px; bottom:3px;
-  width:0; background-color:var(--color); transition: width .2s;
-}
-button::after{
-  content:""; position:absolute; left:.6rem; top:50%; transform:translateY(-50%);
-  width:.8rem; height:.8rem; border:2px solid var(--color); background-color:var(--color);
-  transition: background-color .2s, border-color .2s;
-}
-button:hover, button:focus { background-color: transparent; color: var(--bgColor); border-color: var(--color); }
-button:hover::before, button:focus::before { width: 100%; }
-button:hover::after, button:focus::after { background-color: var(--bgColor); border-color: var(--bgColor); }
-
-.vertical-buttons button { display:block; width:260px; box-sizing:border-box; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; text-align:left; }
-.vertical-buttons button + button { margin-top: .6rem; }
-
-main { flex:1; }
-.content {
-  padding-left: 4rem;
-  background-image: linear-gradient(90deg, rgba(77, 73, 62, .2), rgba(77, 73, 62, .2) 14px,
-    transparent 14px, transparent 20px,
-    rgba(77, 73, 62, .2) 20px, rgba(77, 73, 62, .2) 23px, transparent 23px);
-  margin-bottom: 2rem;
-}
-img { box-shadow: var(--boxShadow); }
-
-/* overlay & panel */
-.overlay{ position:fixed; inset:0; background:rgba(0,0,0,.1); }
-.panel{
-  position:fixed; left:50%; top:50%; transform:translate(-50%, -50%);
-  width:min(500px, 85vw); background:var(--bgColor);
-  border:2px solid var(--color); box-shadow: var(--boxShadow);
-}
-.panel-header{ background:rgba(77,73,62,.6); padding:.8rem 1rem; border-bottom:2px solid var(--color); }
-.panel-header h3{ margin:0; font-weight:500; font-size:.9rem; letter-spacing:var(--letterSpacing); color:var(--bgColor); }
-.panel-body{ padding:0; background:var(--bgColor); }
-.panel-close{ position:absolute; top:.5rem; right:.5rem; background:transparent; color:var(--color); padding:.2rem .5rem; border:none; font-size:1.1rem; line-height:1; cursor:pointer; z-index:10; }
-.panel-list button{ display:block; width:100%; text-align:left; padding:.8rem 1rem .8rem 2rem; background:transparent; border:none; border-bottom:1px solid rgba(77,73,62,.2); position:relative; color:var(--color); }
-.panel-list button:last-child{ border-bottom:none; }
-.panel-list button::before{ content:""; position:absolute; left:.8rem; top:50%; transform:translateY(-50%); width:.6rem; height:.6rem; background:var(--color); border:1px solid var(--color); }
-.panel-list button:hover{ background:rgba(77,73,62,.1); }
-.hidden{ display:none !important; }
-
-/* ▼▼▼ ここから動画パネル専用 ▼▼▼ */
-.panel--wide{ width: min(900px, 95vw); }
-.video-layout{
-  display:grid; grid-template-columns: 300px 1fr; gap: 1rem; padding: 1rem;
-}
-@media (max-width: 780px){
-  .video-layout{ grid-template-columns: 1fr; }
-}
-.video-list{
-  border-right:1px solid rgba(77,73,62,.25);
-  padding-right: 1rem;
-}
-.video-list .vbtn{
-  width:100%; padding:.6rem 1rem .6rem 2rem; text-align:left; border-bottom:1px solid rgba(77,73,62,.2);
-}
-.video-list .vbtn[aria-selected="true"]{ background: rgba(77,73,62,.12); }
-
-.video-card{
-  border:2px solid var(--color);
-  background: var(--bgColor);
-  box-shadow: var(--boxShadow);
-  display:flex; flex-direction:column;
-}
-.video-card .media{
-  position:relative;
-  background: rgba(77,73,62,.25);
-  margin: 1rem;
-  height: 0;
-  padding-top: 56.25%; /* 16:9 */
-  box-shadow: inset 0 0 0 1px rgba(77,73,62,.15);
-}
-.video-card iframe{
-  position:absolute; inset:0; width:100%; height:100%; border:0;
-}
-.video-card .divider{
-  margin: 0 1rem; border:0; border-top: 2px solid rgba(77,73,62,.25);
-}
-.video-card .meta{
-  display:flex; justify-content:space-between; align-items:flex-end;
-  padding: 1rem;
-  min-height: 80px;
-}
-.video-card .desc{ font-size: .95rem; }
-.video-card .count{ font-size: .95rem; }
-
-/* ▼選択時も文字色は固定（YoRHa色のまま） */
-.video-list .vbtn,
-.video-list .vbtn:hover,
-.video-list .vbtn:focus,
-.video-list .vbtn[aria-selected="true"] { color: var(--color); }
-/* vbtnは共通ボタンの装飾を無効化（色反転や四角を消す） */
-.video-list .vbtn::before, .video-list .vbtn::after { content: none; }
-.video-list .vbtn:hover { background: rgba(77, 73, 62, .10); }
-.video-list .vbtn[aria-selected="true"] { background: rgba(77, 73, 62, .12); }
-</style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>NieR:Automata RTA Guide</title>
+  <link rel="stylesheet" href="styles.css">
 </head>
 <body>
 
 <header>
-  <div class="pattern"><div class="container"><div class="pattern-inner"></div></div></div>
+  <div class="pattern">
+    <div class="container">
+      <div class="pattern-inner"></div>
+    </div>
+  </div>
   <div class="container">
     <h1><span>NieR:Automata RTA Guide</span><small>from YoRHa</small></h1>
   </div>
@@ -220,14 +30,19 @@ img { box-shadow: var(--boxShadow); }
       </div>
     </div>
 
-    <div class="content"><img src="NieR-Automata-Logo.jpg" width="300" alt="NieR:Automata Logo"></div>
+    <div class="content">
+      <img src="NieR-Automata-Logo.jpg" width="300" alt="NieR:Automata Logo">
+    </div>
+
     <div class="content"><p>初心者ガイド</p></div>
   </div>
 </main>
 
-<div class="pattern"><div class="container"><div class="pattern-inner"></div></div></div>
+<div class="pattern">
+  <div class="container"><div class="pattern-inner"></div></div>
+</div>
 
-<!-- ▼ 初心者ガイドのパネル -->
+<!-- 初心者ガイドのパネル -->
 <div id="panel-beginner" class="hidden">
   <div class="overlay"></div>
   <div class="panel" role="dialog" aria-modal="true" aria-labelledby="panel-beginner-title">
@@ -244,7 +59,7 @@ img { box-shadow: var(--boxShadow); }
   </div>
 </div>
 
-<!-- ▼ ルート動画パネル -->
+<!-- ルート動画パネル -->
 <div id="panel-video" class="hidden">
   <div class="overlay"></div>
   <div class="panel panel--wide" role="dialog" aria-modal="true" aria-labelledby="panel-video-title">
@@ -252,12 +67,14 @@ img { box-shadow: var(--boxShadow); }
     <div class="panel-header"><h3 id="panel-video-title">初心者向けルート - 動画セレクター</h3></div>
     <div class="panel-body">
       <div class="video-layout">
-        <!-- 左：動画リスト -->
         <div class="video-list" id="video-list"></div>
-
-        <!-- 右：YoRHa風カード -->
         <div class="video-card" aria-live="polite">
-          <div class="media"><iframe id="yt-frame" title="route video" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe></div>
+          <div class="media">
+            <iframe id="yt-frame" title="route video"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+              allowfullscreen>
+            </iframe>
+          </div>
           <hr class="divider"/>
           <div class="meta">
             <div class="desc" id="video-desc">動画の説明がここに表示されます。</div>
@@ -269,131 +86,6 @@ img { box-shadow: var(--boxShadow); }
   </div>
 </div>
 
-<script>
-(function () {
-  // ===== 共通：動画停止ユーティリティ =====
-  function stopEmbeddedVideos(panelEl){
-    const iframes = panelEl.querySelectorAll('iframe');
-    iframes.forEach((ifr)=>{
-      // YouTubeに停止コマンド
-      try {
-        ifr.contentWindow?.postMessage(
-          JSON.stringify({ event: "command", func: "stopVideo", args: "" }),
-          "*"
-        );
-      } catch(e) {}
-      // フォールバック（完全停止）
-      ifr.src = "";
-    });
-  }
-
-  // ===== 汎用：パネルの開閉 =====
-  function bindPanel(panelEl) {
-    const overlay = panelEl.querySelector('.overlay');
-    const closeBtn = panelEl.querySelector('.panel-close');
-
-    const escHandler = (e)=>{
-      if(e.key==='Escape'){
-        stopEmbeddedVideos(panelEl);
-        hidePanel(panelEl);
-      }
-    };
-    panelEl._esc = escHandler;
-
-    overlay.addEventListener('click', ()=>{
-      stopEmbeddedVideos(panelEl);
-      hidePanel(panelEl);
-    });
-    closeBtn.addEventListener('click', ()=>{
-      stopEmbeddedVideos(panelEl);
-      hidePanel(panelEl);
-    });
-  }
-
-  function showPanel(panelEl) {
-    panelEl.classList.remove('hidden');
-    document.addEventListener('keydown', panelEl._esc);
-
-    // 動画パネルを再オープンしたとき、srcが空なら現在選択の動画を停止状態で復元
-    if (panelEl.id === 'panel-video') {
-      const frame = document.getElementById('yt-frame');
-      if (!frame.src) {
-        selectVideo(currentIndex >= 0 ? currentIndex : 0, /*autoplay*/false);
-      }
-    }
-  }
-
-  function hidePanel(panelEl) {
-    panelEl.classList.add('hidden');
-    document.removeEventListener('keydown', panelEl._esc);
-  }
-
-  const beginnerPanel = document.getElementById('panel-beginner');
-  const videoPanel = document.getElementById('panel-video');
-  bindPanel(beginnerPanel);
-  bindPanel(videoPanel);
-
-  document.getElementById('btn-beginner')?.addEventListener('click', ()=> showPanel(beginnerPanel));
-
-  // ===== 動画セレクター =====
-  const videos = [
-    { id: "IKWAp2eXxsA", title: "プロローグ", desc: "プロローグの基本的な動きを解説。"},
-    { id: "nJthTXdTgyY", title: "バンカー～砂漠終了", desc: "廃墟都市から砂漠終わりまでの動きを解説。"},
-    { id: "MnpSskXdLww", title: "廃墟都市～イヴ＆アダム戦終了", desc: "安定したボス攻略のパターンを解説。"},
-    { id: "eYc0w4z57Xk", title: "バンカー～グリューン戦終了", desc: "パスカルの村からグリューン終了までの動きを解説。"},
-    { id: "h-c43XfRxUQ", title: "複製された街～工場廃墟終了", desc: "いい感じの言葉を入れる"},
-    { id: "nkOJ3OriYlE", title: "flowers for m[A]chines", desc: "いい感じの言葉を入れる"},
-  ];
-
-  const listEl = document.getElementById('video-list');
-  const frameEl = document.getElementById('yt-frame');
-  const descEl  = document.getElementById('video-desc');
-  const countEl = document.getElementById('video-count');
-  let currentIndex = -1;
-
-  function buildList(){
-    listEl.innerHTML = "";
-    videos.forEach((v, i)=>{
-      const btn = document.createElement('button');
-      btn.className = 'vbtn';
-      btn.type = 'button';
-      btn.textContent = v.title;
-      btn.setAttribute('data-index', i);
-      btn.addEventListener('click', ()=> selectVideo(i, /*autoplay*/true));
-      listEl.appendChild(btn);
-    });
-    countEl.textContent = `候補数: ${videos.length}`;
-  }
-
-  function selectVideo(index, autoplay=false){
-    if(index === currentIndex) return;
-    currentIndex = index;
-
-    // list highlight
-    [...listEl.querySelectorAll('.vbtn')].forEach((b, i)=>{
-      b.setAttribute('aria-selected', String(i===index));
-    });
-
-    // set video
-    const v = videos[index];
-    const params = autoplay
-      ? "?autoplay=1&rel=0&modestbranding=1&enablejsapi=1"
-      : "?rel=0&modestbranding=1&enablejsapi=1";
-    frameEl.src = `https://www.youtube.com/embed/${v.id}${params}`;
-    frameEl.title = v.title;
-    descEl.textContent = v.desc || "";
-  }
-
-  // 初期構築
-  buildList();
-  selectVideo(0, /*autoplay*/false);
-
-  // 「初心者向けルート」を押したら動画パネルを開く
-  document.getElementById('open-route')?.addEventListener('click', ()=>{
-    hidePanel(beginnerPanel);
-    showPanel(videoPanel);
-  });
-})();
-</script>
+<script src="script.js" defer></script>
 </body>
 </html>
