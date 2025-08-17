@@ -83,6 +83,7 @@
     { id: "jCMOUmEyZ7E", title: "移動方法", desc: "ダッシュ、動物"},
     { id: "BNadVOMQhnE", title: "戦闘方法", desc: "ダメージグリッチとスローモーション"},
     { id: "EbJ3VxSnuvE", title: "簡単なテクニック", desc: "ダブルリフトとダイアログスキップ"},
+    { id: "ShkgsCS19gs", title: "移動方法比較", desc: "移動方法比較"},
   ];
 
   /* ===== 汎用：動画パネルの初期化 ===== */
