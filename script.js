@@ -46,32 +46,29 @@
     document.addEventListener('keydown', panelEl._esc);
     lockScroll();
 
-    // 動画パネル再オープン時：停止状態で復元
-    if (panelEl.id === 'panel-video'){
-      const frame = document.getElementById('yt-frame');
-      if (!frame.src){
-        selectVideo(currentIndex >= 0 ? currentIndex : 0, /*autoplay*/false);
-      }
+    // 再オープン時：停止状態なら現在インデックスで復元
+    const frame = panelEl.querySelector('[data-role="frame"]');
+    if (frame && !frame.src && typeof panelEl._currentIndex === 'number'){
+      selectVideo(panelEl, panelEl._currentIndex, /*autoplay*/false);
     }
   }
 
   function hidePanel(panelEl){
     panelEl.classList.add('hidden');
     document.removeEventListener('keydown', panelEl._esc);
-    // すべてのパネルが閉じたら解錠
     const anyOpen = document.querySelectorAll('.panel:not(.hidden)').length > 0;
     if(!anyOpen) unlockScroll();
   }
 
   const beginnerPanel = document.getElementById('panel-beginner');
-  const videoPanel    = document.getElementById('panel-video');
-  bindPanel(beginnerPanel);
-  bindPanel(videoPanel);
+  const routePanel    = document.getElementById('panel-video-route');
+  const basicsPanel   = document.getElementById('panel-video-basics');
+  [beginnerPanel, routePanel, basicsPanel].forEach(bindPanel);
 
   document.getElementById('btn-beginner')?.addEventListener('click', ()=> showPanel(beginnerPanel));
 
-  /* ===== 動画セレクター ===== */
-  const videos = [
+  /* ===== 動画データ ===== */
+  const videosRoute = [
     { id: "IKWAp2eXxsA", title: "プロローグ", desc: "プロローグの基本的な動きを解説。"},
     { id: "nJthTXdTgyY", title: "バンカー～砂漠終了", desc: "廃墟都市から砂漠終わりまでの動きを解説。"},
     { id: "MnpSskXdLww", title: "廃墟都市～イヴ＆アダム戦終了", desc: "安定したボス攻略のパターンを解説。"},
@@ -80,52 +77,76 @@
     { id: "nkOJ3OriYlE", title: "flowers for m[A]chines", desc: "いい感じの言葉を入れる"},
   ];
 
-  const listEl  = document.getElementById('video-list');
-  const frameEl = document.getElementById('yt-frame');
-  const descEl  = document.getElementById('video-desc');
-  const countEl = document.getElementById('video-count');
-  let currentIndex = -1;
+  // ★ここに「基本操作」用の動画IDを入れてください
+  const videosBasics = [
+    { id: "K21PFonrmVo", title: "基礎操作", desc: "攻撃モーション"},
+    { id: "jCMOUmEyZ7E", title: "移動方法", desc: "ダッシュ、動物"},
+    { id: "BNadVOMQhnE", title: "戦闘方法", desc: "ダメージグリッチとスローモーション"},
+    { id: "EbJ3VxSnuvE", title: "簡単なテクニック", desc: "ダブルリフトとダイアログスキップ"},
+  ];
 
-  function buildList(){
-    listEl.innerHTML = "";
-    videos.forEach((v, i)=>{
-      const btn = document.createElement('button');
-      btn.className = 'vbtn';
-      btn.type = 'button';
-      btn.textContent = v.title;
-      btn.setAttribute('data-index', i);
-      btn.addEventListener('click', ()=> selectVideo(i, /*autoplay*/true));
-      listEl.appendChild(btn);
-    });
-    countEl.textContent = `候補数: ${videos.length}`;
+  /* ===== 汎用：動画パネルの初期化 ===== */
+  function initVideoPanel(panelEl, videos, defaultIndex=0){
+    panelEl._videos = videos;
+    panelEl._currentIndex = defaultIndex;
+
+    const listEl  = panelEl.querySelector('[data-role="list"]');
+    const frameEl = panelEl.querySelector('[data-role="frame"]');
+    const descEl  = panelEl.querySelector('[data-role="desc"]');
+    const countEl = panelEl.querySelector('[data-role="count"]');
+
+    function buildList(){
+      listEl.innerHTML = "";
+      videos.forEach((v, i)=>{
+        const btn = document.createElement('button');
+        btn.className = 'vbtn';
+        btn.type = 'button';
+        btn.textContent = v.title;
+        btn.setAttribute('data-index', i);
+        btn.addEventListener('click', ()=> selectVideo(panelEl, i, /*autoplay*/true));
+        listEl.appendChild(btn);
+      });
+      if(countEl) countEl.textContent = `候補数: ${videos.length}`;
+    }
+
+    panelEl._els = { listEl, frameEl, descEl, countEl };
+    buildList();
+    selectVideo(panelEl, defaultIndex, /*autoplay*/false);
   }
 
-  function selectVideo(index, autoplay=false){
-    if(index === currentIndex) return;
-    currentIndex = index;
+  function selectVideo(panelEl, index, autoplay=false){
+    const { listEl, frameEl, descEl } = panelEl._els;
+    const videos = panelEl._videos;
+    if(index === panelEl._currentIndex) return;
 
-    // リストのハイライト
+    panelEl._currentIndex = index;
+
+    // list highlight
     [...listEl.querySelectorAll('.vbtn')].forEach((b, i)=>{
       b.setAttribute('aria-selected', String(i===index));
     });
 
-    // 埋め込み
+    // set video
     const v = videos[index];
     const params = autoplay
       ? "?autoplay=1&rel=0&modestbranding=1&enablejsapi=1"
       : "?rel=0&modestbranding=1&enablejsapi=1";
     frameEl.src = `https://www.youtube.com/embed/${v.id}${params}`;
     frameEl.title = v.title;
-    descEl.textContent = v.desc || "";
+    if(descEl) descEl.textContent = v.desc || "";
   }
 
-  // 初期構築
-  buildList();
-  selectVideo(0, /*autoplay*/false);
+  // 初期化（両パネル）
+  initVideoPanel(routePanel,  videosRoute, 0);
+  initVideoPanel(basicsPanel, videosBasics, 0);
 
-  // 初心者向けルート → 動画パネル
+  // メニュー → 各パネルを開く
   document.getElementById('open-route')?.addEventListener('click', ()=>{
     hidePanel(beginnerPanel);
-    showPanel(videoPanel);
+    showPanel(routePanel);
+  });
+  document.getElementById('open-basics')?.addEventListener('click', ()=>{
+    hidePanel(beginnerPanel);
+    showPanel(basicsPanel);
   });
 })();

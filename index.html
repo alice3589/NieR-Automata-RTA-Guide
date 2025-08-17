@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"/>
   <title>NieR:Automata RTA Guide</title>
-  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="styles.css?v=2">
 </head>
 <body>
 
@@ -33,6 +33,8 @@
     <div class="content">
       <img src="NieR-Automata-Logo.jpg" width="300" alt="NieR:Automata Logo">
     </div>
+
+    <div class="content"><p>初心者ガイド</p></div>
   </div>
 </main>
 
@@ -48,7 +50,7 @@
     <div class="panel-header"><h3 id="panel-beginner-title">初心者ガイド</h3></div>
     <div class="panel-body">
       <div class="panel-list">
-        <button type="button">ゲームの基本操作</button>
+        <button id="open-basics" type="button">ゲームの基本操作</button>
         <button type="button">設定・画面調整</button>
         <button id="open-route" type="button">初心者向けルート</button>
         <button type="button" onclick="location.href='https://www.speedrun.com/ja-JP/na/guides/28iic'">用語集</button>
@@ -58,25 +60,50 @@
 </div>
 
 <!-- ルート動画パネル -->
-<div id="panel-video" class="hidden">
+<div id="panel-video-route" class="hidden">
   <div class="overlay"></div>
-  <div class="panel panel--wide" role="dialog" aria-modal="true" aria-labelledby="panel-video-title">
+  <div class="panel panel--wide" role="dialog" aria-modal="true" aria-labelledby="panel-video-route-title">
     <button type="button" class="panel-close" aria-label="閉じる">×</button>
-    <div class="panel-header"><h3 id="panel-video-title">初心者向けルート - 動画セレクター</h3></div>
+    <div class="panel-header"><h3 id="panel-video-route-title">初心者向けルート - 動画セレクター</h3></div>
     <div class="panel-body">
       <div class="video-layout">
-        <div class="video-list" id="video-list"></div>
+        <div class="video-list" data-role="list"></div>
         <div class="video-card" aria-live="polite">
           <div class="media">
-            <iframe id="yt-frame" title="route video"
+            <iframe data-role="frame" title="route video"
               allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-              allowfullscreen>
-            </iframe>
+              allowfullscreen></iframe>
           </div>
           <hr class="divider"/>
           <div class="meta">
-            <div class="desc" id="video-desc">動画の説明がここに表示されます。</div>
-            <div class="count" id="video-count">候補数: 0</div>
+            <div class="desc" data-role="desc">動画の説明がここに表示されます。</div>
+            <div class="count" data-role="count">候補数: 0</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- 基本操作 動画パネル -->
+<div id="panel-video-basics" class="hidden">
+  <div class="overlay"></div>
+  <div class="panel panel--wide" role="dialog" aria-modal="true" aria-labelledby="panel-video-basics-title">
+    <button type="button" class="panel-close" aria-label="閉じる">×</button>
+    <div class="panel-header"><h3 id="panel-video-basics-title">ゲームの基本操作 - 動画セレクター</h3></div>
+    <div class="panel-body">
+      <div class="video-layout">
+        <div class="video-list" data-role="list"></div>
+        <div class="video-card" aria-live="polite">
+          <div class="media">
+            <iframe data-role="frame" title="basics video"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+              allowfullscreen></iframe>
+          </div>
+          <hr class="divider"/>
+          <div class="meta">
+            <div class="desc" data-role="desc">動画の説明がここに表示されます。</div>
+            <div class="count" data-role="count">候補数: 0</div>
           </div>
         </div>
       </div>
