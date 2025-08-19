@@ -146,8 +146,6 @@
   }
 
   // 初期化
-  const routePanel = document.getElementById('panel-video-route');
-  const basicsPanel = document.getElementById('panel-video-basics');
   initVideoPanel(routePanel,  videosRoute,  0);
   initVideoPanel(basicsPanel, videosBasics, 0);
 
