@@ -28,23 +28,32 @@ body{
 
 .container{ padding: 0 clamp(1rem, 4vw, 4rem); }
 header{ padding:1rem 0; }
-h1{ text-transform:uppercase; font-weight:300; letter-spacing: clamp(.25rem, 1.2vw, .7rem); text-shadow:.3rem .3rem 0 rgba(77,73,62,.3); line-height:1.2; }
+h1{
+  text-transform:uppercase; font-weight:300;
+  letter-spacing: clamp(.25rem, 1.2vw, .7rem);
+  text-shadow:.3rem .3rem 0 rgba(77,73,62,.3);
+  line-height:1.2;
+}
 h1 span{ margin-right:-.2rem; font-weight:400; }
 h1 small{ font-weight:500; text-transform:none; text-shadow:none; letter-spacing:var(--letterSpacing); }
 h1 small::before{ content:"–"; margin-right:.5rem; }
 
 /* Pattern */
 .pattern{ border-top:2px solid var(--color); }
-.pattern-inner{ height:40px; background-repeat:repeat-x; background-size:50px 3px,50px 1px,50px 1px,50px 1px,50px 1px,50px 1px,50px 1px,50px 1px,50px 1px; background-position:0 0,22px 4px,22px 5px,22px 6px,22px 7px,28px 12px,28px 13px,28px 14px,28px 15px; background-image:
-  linear-gradient(90deg,var(--color),var(--color) 10px,transparent 10px),
-  linear-gradient(90deg,rgba(77,73,62,.4),rgba(77,73,62,.4) 1px,rgba(77,73,62,.8) 1px,rgba(77,73,62,.8) 2px,rgba(77,73,62,.9) 2px,rgba(77,73,62,.9) 3px,rgba(77,73,62,.4) 3px,rgba(77,73,62,.4) 4px,transparent 4px,transparent 12px,rgba(77,73,62,.4) 12px,rgba(77,73,62,.4) 13px,rgba(77,73,62,.8) 13px,rgba(77,73,62,.8) 14px,rgba(77,73,62,.9) 14px,rgba(77,73,62,.9) 15px,rgba(77,73,62,.4) 15px,rgba(77,73,62,.4) 16px,transparent 16px),
-  linear-gradient(90deg,rgba(77,73,62,.9),rgba(77,73,62,.9) 1px,rgba(77,73,62,1) 1px,rgba(77,73,62,1) 2px,rgba(77,73,62,1) 2px,rgba(77,73,62,1) 3px,rgba(77,73,62,.9) 3px,rgba(77,73,62,.9) 4px,transparent 4px,transparent 12px,rgba(77,73,62,.9) 12px,rgba(77,73,62,.9) 13px,rgba(77,73,62,1) 13px,rgba(77,73,62,1) 14px,rgba(77,73,62,1) 14px,rgba(77,73,62,1) 15px,rgba(77,73,62,.9) 15px,rgba(77,73,62,.9) 16px,transparent 16px),
-  linear-gradient(90deg,rgba(77,73,62,.9),rgba(77,73,62,.9) 1px,rgba(77,73,62,1) 1px,rgba(77,73,62,1) 2px,rgba(77,73,62,1) 2px,rgba(77,73,62,1) 3px,rgba(77,73,62,.9) 3px,rgba(77,73,62,.9) 4px,transparent 4px,transparent 12px,rgba(77,73,62,.9) 12px,rgba(77,73,62,.9) 13px,rgba(77,73,62,1) 13px,rgba(77,73,62,1) 14px,rgba(77,73,62,1) 14px,rgba(77,73,62,1) 15px,rgba(77,73,62,.9) 15px,rgba(77,73,62,.9) 16px,transparent 16px),
-  linear-gradient(90deg,rgba(77,73,62,.4),rgba(77,73,62,.4) 1px,rgba(77,73,62,.8) 1px,rgba(77,73,62,.8) 2px,rgba(77,73,62,.9) 2px,rgba(77,73,62,.9) 3px,rgba(77,73,62,.4) 3px,rgba(77,73,62,.4) 4px,transparent 4px,transparent 12px,rgba(77,73,62,.4) 12px,rgba(77,73,62,.4) 13px,rgba(77,73,62,.8) 13px,rgba(77,73,62,.8) 14px,rgba(77,73,62,.9) 14px,rgba(77,73,62,.9) 15px,rgba(77,73,62,.4) 15px,rgba(77,73,62,.4) 16px,transparent 16px),
-  linear-gradient(90deg,rgba(77,73,62,.4),rgba(77,73,62,.4) 1px,rgba(77,73,62,.8) 1px,rgba(77,73,62,.8) 2px,rgba(77,73,62,.9) 2px,rgba(77,73,62,.9) 3px,rgba(77,73,62,.4) 3px,rgba(77,73,62,.4) 4px,transparent 4px),
-  linear-gradient(90deg,rgba(77,73,62,.9),rgba(77,73,62,.9) 1px,rgba(77,73,62,1) 1px,rgba(77,73,62,1) 2px,rgba(77,73,62,1) 2px,rgba(77,73,62,1) 3px,rgba(77,73,62,.9) 3px,rgba(77,73,62,.9) 4px,transparent 4px),
-  linear-gradient(90deg,rgba(77,73,62,.9),rgba(77,73,62,.9) 1px,rgba(77,73,62,1) 1px,rgba(77,73,62,1) 2px,rgba(77,73,62,1) 2px,rgba(77,73,62,1) 3px,rgba(77,73,62,.9) 3px,rgba(77,73,62,.9) 4px,transparent 4px),
-  linear-gradient(90deg,rgba(77,73,62,.4),rgba(77,73,62,.4) 1px,rgba(77,73,62,.8) 1px,rgba(77,73,62,.8) 2px,rgba(77,73,62,.9) 2px,rgba(77,73,62,.9) 3px,rgba(77,73,62,.4) 3px,rgba(77,73,62,.4) 4px,transparent 4px);
+.pattern-inner{
+  height:40px; background-repeat:repeat-x;
+  background-size:50px 3px,50px 1px,50px 1px,50px 1px,50px 1px,50px 1px,50px 1px,50px 1px,50px 1px;
+  background-position:0 0,22px 4px,22px 5px,22px 6px,22px 7px,28px 12px,28px 13px,28px 14px,28px 15px;
+  background-image:
+    linear-gradient(90deg,var(--color),var(--color) 10px,transparent 10px),
+    linear-gradient(90deg,rgba(77,73,62,.4),rgba(77,73,62,.4) 1px,rgba(77,73,62,.8) 1px,rgba(77,73,62,.8) 2px,rgba(77,73,62,.9) 2px,rgba(77,73,62,.9) 3px,rgba(77,73,62,.4) 3px,rgba(77,73,62,.4) 4px,transparent 4px,transparent 12px,rgba(77,73,62,.4) 12px,rgba(77,73,62,.4) 13px,rgba(77,73,62,.8) 13px,rgba(77,73,62,.8) 14px,rgba(77,73,62,.9) 14px,rgba(77,73,62,.9) 15px,rgba(77,73,62,.4) 15px,rgba(77,73,62,.4) 16px,transparent 16px),
+    linear-gradient(90deg,rgba(77,73,62,.9),rgba(77,73,62,.9) 1px,rgba(77,73,62,1) 1px,rgba(77,73,62,1) 2px,rgba(77,73,62,1) 2px,rgba(77,73,62,1) 3px,rgba(77,73,62,.9) 3px,rgba(77,73,62,.9) 4px,transparent 4px,transparent 12px,rgba(77,73,62,.9) 12px,rgba(77,73,62,.9) 13px,rgba(77,73,62,1) 13px,rgba(77,73,62,1) 14px,rgba(77,73,62,1) 14px,rgba(77,73,62,1) 15px,rgba(77,73,62,.9) 15px,rgba(77,73,62,.9) 16px,transparent 16px),
+    linear-gradient(90deg,rgba(77,73,62,.9),rgba(77,73,62,.9) 1px,rgba(77,73,62,1) 1px,rgba(77,73,62,1) 2px,rgba(77,73,62,1) 2px,rgba(77,73,62,1) 3px,rgba(77,73,62,.9) 3px,rgba(77,73,62,.9) 4px,transparent 4px,transparent 12px,rgba(77,73,62,.9) 12px,rgba(77,73,62,.9) 13px,rgba(77,73,62,1) 13px,rgba(77,73,62,1) 14px,rgba(77,73,62,1) 14px,rgba(77,73,62,1) 15px,rgba(77,73,62,.9) 15px,rgba(77,73,62,.9) 16px,transparent 16px),
+    linear-gradient(90deg,rgba(77,73,62,.4),rgba(77,73,62,.4) 1px,rgba(77,73,62,.8) 1px,rgba(77,73,62,.8) 2px,rgba(77,73,62,.9) 2px,rgba(77,73,62,.9) 3px,rgba(77,73,62,.4) 3px,rgba(77,73,62,.4) 4px,transparent 4px,transparent 12px,rgba(77,73,62,.4) 12px,rgba(77,73,62,.4) 13px,rgba(77,73,62,.8) 13px,rgba(77,73,62,.8) 14px,rgba(77,73,62,.9) 14px,rgba(77,73,62,.9) 15px,rgba(77,73,62,.4) 15px,rgba(77,73,62,.4) 16px,transparent 16px),
+    linear-gradient(90deg,rgba(77,73,62,.4),rgba(77,73,62,.4) 1px,rgba(77,73,62,.8) 1px,rgba(77,73,62,.8) 2px,rgba(77,73,62,.9) 2px,rgba(77,73,62,.9) 3px,rgba(77,73,62,.4) 3px,rgba(77,73,62,.4) 4px,transparent 4px),
+    linear-gradient(90deg,rgba(77,73,62,.9),rgba(77,73,62,.9) 1px,rgba(77,73,62,1) 1px,rgba(77,73,62,1) 2px,rgba(77,73,62,1) 2px,rgba(77,73,62,1) 3px,rgba(77,73,62,.9) 3px,rgba(77,73,62,.9) 4px,transparent 4px),
+    linear-gradient(90deg,rgba(77,73,62,.9),rgba(77,73,62,.9) 1px,rgba(77,73,62,1) 1px,rgba(77,73,62,1) 2px,rgba(77,73,62,1) 2px,rgba(77,73,62,1) 3px,rgba(77,73,62,.9) 3px,rgba(77,73,62,.9) 4px,transparent 4px),
+    linear-gradient(90deg,rgba(77,73,62,.4),rgba(77,73,62,.4) 1px,rgba(77,73,62,.8) 1px,rgba(77,73,62,.8) 2px,rgba(77,73,62,.9) 2px,rgba(77,73,62,.9) 3px,rgba(77,73,62,.4) 3px,rgba(77,73,62,.4) 4px,transparent 4px);
 }
 
 /* Buttons */
@@ -70,32 +79,66 @@ button:hover::before, button:focus::before{ width:100%; }
 button:hover::after, button:focus::after{ background-color:var(--bgColor); border-color:var(--bgColor); }
 
 /* メインメニューを常に縦並び */
-.vertical-buttons{ display:flex; flex-direction:column; align-items:stretch; gap:.6rem; max-width:420px; }
-.vertical-buttons button{ display:block; width:100%; text-align:left; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+.vertical-buttons{
+  display:flex; flex-direction:column; align-items:stretch; gap:.6rem; max-width:420px;
+}
+.vertical-buttons button{
+  display:block; width:100%; text-align:left; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;
+}
 
 /* Content */
 main{ flex:1; }
-.content{ padding-left:4rem; background-image:linear-gradient(90deg, rgba(77,73,62,.2), rgba(77,73,62,.2) 14px, transparent 14px, transparent 20px, rgba(77,73,62,.2) 20px, rgba(77,73,62,.2) 23px, transparent 23px); margin-bottom:2rem; }
+.content{
+  padding-left:4rem;
+  background-image:linear-gradient(90deg, rgba(77,73,62,.2), rgba(77,73,62,.2) 14px, transparent 14px, transparent 20px, rgba(77,73,62,.2) 20px, rgba(77,73,62,.2) 23px, transparent 23px);
+  margin-bottom:2rem;
+}
 img{ box-shadow:var(--boxShadow); }
 
 /* Overlay & Panel */
-.overlay{ position:fixed; inset:0; background:rgba(0,0,0,.1); padding: env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left); }
-.panel{ position:fixed; left:50%; top:50%; transform:translate(-50%,-50%); width:min(500px, 95vw); background:var(--bgColor); border:2px solid var(--color); box-shadow:var(--boxShadow); max-height: calc(100dvh - 2rem); overflow:hidden; }
+.overlay{
+  position:fixed; inset:0; background:rgba(0,0,0,.1);
+  padding: env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left);
+}
+.panel{
+  position:fixed; left:50%; top:50%; transform:translate(-50%,-50%);
+  width:min(500px, 95vw);
+  background:var(--bgColor);
+  border:2px solid var(--color);
+  box-shadow:var(--boxShadow);
+  max-height: calc(100dvh - 2rem);
+  overflow:hidden;
+}
 .panel-header{ background:rgba(77,73,62,.6); padding:.8rem 1rem; border-bottom:2px solid var(--color); }
 .panel-header h3{ margin:0; font-weight:500; font-size:.95rem; letter-spacing:var(--letterSpacing); color:var(--bgColor); }
 .panel-body{ padding:0; background:var(--bgColor); overflow:auto; max-height: calc(100dvh - 6rem); }
-.panel-close{ position:absolute; top:.5rem; right:.5rem; background:transparent; color:var(--color); padding:.2rem .5rem; border:none; font-size:1.1rem; line-height:1; cursor:pointer; z-index:10; }
-.panel-list button{ display:block; width:100%; text-align:left; padding:.8rem 1rem .8rem 2rem; background:transparent; border:none; border-bottom:1px solid rgba(77,73,62,.2); position:relative; color:var(--color); }
+.panel-close{
+  position:absolute; top:.5rem; right:.5rem; background:transparent; color:var(--color);
+  padding:.2rem .5rem; border:none; font-size:1.1rem; line-height:1; cursor:pointer; z-index:10;
+}
+.panel-list button{
+  display:block; width:100%; text-align:left; padding:.8rem 1rem .8rem 2rem;
+  background:transparent; border:none; border-bottom:1px solid rgba(77,73,62,.2);
+  position:relative; color:var(--color);
+}
 .panel-list button:last-child{ border-bottom:none; }
-.panel-list button::before{ content:""; position:absolute; left:.8rem; top:50%; transform:translateY(-50%); width:.6rem; height:.6rem; background:var(--color); border:1px solid var(--color); }
+.panel-list button::before{
+  content:""; position:absolute; left:.8rem; top:50%; transform:translateY(-50%);
+  width:.6rem; height:.6rem; background:var(--color); border:1px solid var(--color);
+}
 .panel-list button:hover{ background:rgba(77,73,62,.1); }
 .hidden{ display:none !important; }
 
-/* 動画パネル共通 */
+/* 幅広パネル（動画・設定に使用） */
 .panel--wide{ width:min(900px, 95vw); }
+
+/* 動画パネル共通 */
 .video-layout{ display:grid; grid-template-columns: 300px 1fr; gap:1rem; padding:1rem; }
 .video-list{ border-right:1px solid rgba(77,73,62,.25); padding-right:1rem; }
-.video-list .vbtn{ width:100%; padding:.6rem 1rem .6rem 2rem; text-align:left; border-bottom:1px solid rgba(77,73,62,.2); }
+.video-list .vbtn{
+  width:100%; padding:.6rem 1rem .6rem 2rem; text-align:left;
+  border-bottom:1px solid rgba(77,73,62,.2);
+}
 /* 選択時も文字色は変えない */
 .video-list .vbtn,
 .video-list .vbtn:hover,
@@ -118,6 +161,19 @@ img{ box-shadow:var(--boxShadow); }
 .stab{ background:transparent; border:1px solid rgba(77,73,62,.25); padding:.4rem .8rem; cursor:pointer; }
 .stab::before,.stab::after{ content:none; } /* 既存ボタン装飾を打ち消し */
 .stab[aria-selected="true"]{ background:rgba(77,73,62,.12); }
+/* タブの文字色を常に固定（押下時/選択時/ホバー時も変えない） */
+.settings-switch .stab,
+.settings-switch .stab:hover,
+.settings-switch .stab:focus,
+.settings-switch .stab[aria-selected="true"],
+.settings-switch .stab[aria-selected="true"]:hover,
+.settings-switch .stab[aria-selected="true"]:focus{
+  color: var(--color) !important;
+}
+.settings-switch .stab:hover,
+.settings-switch .stab:focus{
+  border-color: rgba(77,73,62,.25);
+}
 
 /* 設定: 日本人走者ギャラリー */
 .settings-grid{
@@ -130,6 +186,7 @@ img{ box-shadow:var(--boxShadow); }
 .settings-card img{
   width:100%; aspect-ratio:16/9; object-fit:cover; display:block;
   box-shadow: inset 0 0 0 1px rgba(77,73,62,.12);
+  cursor: zoom-in; /* クリックで拡大のヒント */
 }
 .settings-card figcaption{
   padding:.6rem .8rem; font-size:.95rem; line-height:1.4;
@@ -140,6 +197,30 @@ img{ box-shadow:var(--boxShadow); }
 .ext-box{ padding:1rem; }
 .ext-link{ text-decoration: underline; }
 .note{ opacity:.85; font-size:.9rem; }
+
+/* 画像ビューア（固定幅は指定しない＝可変） */
+.panel--image{ overflow: hidden; } /* 幅指定はしない（固定サイズを削除） */
+.panel--image .panel-body{
+  max-height: calc(100dvh - 6rem);
+}
+.panel--image .image-wrap{
+  padding: .5rem;
+  display:flex; justify-content:center; align-items:center;
+  max-height: calc(100dvh - 7rem);
+}
+#viewer-img{
+  max-width: 100%;
+  max-height: 100%;
+  width: auto; height: auto;
+  object-fit: contain;               /* 横/縦の切れ防止 */
+  display: block;
+  box-shadow: var(--boxShadow);
+}
+.image-caption{
+  padding: .25rem 1rem 1rem;
+  text-align:center;
+  font-size:.95rem; line-height:1.4; opacity:.9;
+}
 
 /* Responsive */
 @media (max-width: 1024px){ .content{ padding-left:2rem; } }
@@ -159,22 +240,61 @@ img{ box-shadow:var(--boxShadow); }
 
 /* Safe-area padding */
 @supports (padding:max(0px)){
-  body{ padding-left:max(0px, env(safe-area-inset-left)); padding-right:max(0px, env(safe-area-inset-right)); }
+  body{
+    padding-left:max(0px, env(safe-area-inset-left));
+    padding-right:max(0px, env(safe-area-inset-right));
+  }
 }
 
-/* 設定タブの文字色を常に固定 */
-.settings-switch .stab,
-.settings-switch .stab:hover,
-.settings-switch .stab:focus,
-.settings-switch .stab[aria-selected="true"],
-.settings-switch .stab[aria-selected="true"]:hover,
-.settings-switch .stab[aria-selected="true"]:focus{
-  color: var(--color) !important;  /* 押しても/選択中でも色を変えない */
+/* ===== 画像ビューアの見切れ対策（上書き） ===== */
+
+/* モーダル枠に合わせて“中身でサイズが決まる”ようにし、横スクロールは出さない */
+
+
+/* ビューアの表示領域：画面内に必ず収まる箱を作る */
+.panel--image .image-wrap{
+  padding: .75rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  max-width: calc(100vw - 3rem);      /* 左右マージン分を差し引く */
+  max-height: calc(100dvh - 10rem);   /* ヘッダー/余白分を差し引く */
 }
 
-/* （任意）境界線まで変わるのが気になる場合はこれも */
-.settings-switch .stab:hover,
-.settings-switch .stab:focus{
-  border-color: rgba(77,73,62,.25);
+/* 画像は“contain”で必ず全体が見えるようにする（横も縦も切らない） */
+#viewer-img{
+  width: 100%;
+  height: 100%;
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;    /* 重要：切り抜かず縮小して収める */
+  display: block;
 }
 
+/* 小画面での余白を少しタイトに */
+@media (max-width: 560px){
+  .panel--image .image-wrap{
+    max-width: calc(100vw - 1.5rem);
+    max-height: calc(100dvh - 9rem);
+    padding: .5rem;
+  }
+}
+
+/* 画像ビューアの表示領域を広げる（縦方向の余白を減らす） */
+.panel--image .panel-body{
+  max-height: calc(100dvh - 4rem); /* 6rem → 4rem で広く */
+}
+.panel--image .image-wrap{
+  max-height: calc(100dvh - 4.5rem); /* 7rem → 4.5rem */
+  padding: .25rem; /* 余白も少しだけタイトに */
+}
+/* 画像は枠いっぱいに“切らずに”拡大 */
+#viewer-img{
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+}
+
+/* 追加 */
+.settings-grid.size-l  { grid-template-columns: repeat(auto-fit, minmax(340px, 1fr)); }
+.settings-grid.size-xl { grid-template-columns: repeat(auto-fit, minmax(420px, 1fr)); }

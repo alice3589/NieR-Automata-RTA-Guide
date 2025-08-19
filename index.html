@@ -112,7 +112,7 @@
 <!-- 設定・画面調整（モーダル） -->
 <div id="panel-settings" class="hidden" data-modal>
   <div class="overlay"></div>
-  <div class="panel panel--wide" role="dialog" aria-modal="true" aria-labelledby="panel-settings-title">
+  <div class="panel panel--wide panel--image" role="dialog" aria-modal="true" aria-labelledby="panel-settings-title">
     <button type="button" class="panel-close" aria-label="閉じる">×</button>
     <div class="panel-header"><h3 id="panel-settings-title">設定・画面調整</h3></div>
 
@@ -147,6 +147,22 @@
         </figure>
         <!-- 枚数は自由に増やせます -->
       </section>
+
+      <!-- 画像ビューア（モーダル） -->
+<div id="panel-image" class="hidden" data-modal>
+  <div class="overlay"></div>
+  <!-- ▼ここに panel--wide を追加 -->
+  <div class="panel panel--wide panel--image" role="dialog" aria-modal="true" aria-labelledby="panel-image-title">
+    <button type="button" class="panel-close" aria-label="閉じる">×</button>
+    <div class="panel-header"><h3 id="panel-image-title">設定画像</h3></div>
+    <div class="panel-body">
+      <div class="image-wrap">
+        <img id="viewer-img" alt="">
+      </div>
+      <div class="image-caption" id="viewer-caption"></div>
+    </div>
+  </div>
+</div>
 
       <!-- 海外走者：外部リンクのみ -->
       <section id="settings-en" class="hidden" aria-hidden="true">
