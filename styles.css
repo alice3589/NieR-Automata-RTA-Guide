@@ -161,3 +161,20 @@ img{ box-shadow:var(--boxShadow); }
 @supports (padding:max(0px)){
   body{ padding-left:max(0px, env(safe-area-inset-left)); padding-right:max(0px, env(safe-area-inset-right)); }
 }
+
+/* 設定タブの文字色を常に固定 */
+.settings-switch .stab,
+.settings-switch .stab:hover,
+.settings-switch .stab:focus,
+.settings-switch .stab[aria-selected="true"],
+.settings-switch .stab[aria-selected="true"]:hover,
+.settings-switch .stab[aria-selected="true"]:focus{
+  color: var(--color) !important;  /* 押しても/選択中でも色を変えない */
+}
+
+/* （任意）境界線まで変わるのが気になる場合はこれも */
+.settings-switch .stab:hover,
+.settings-switch .stab:focus{
+  border-color: rgba(77,73,62,.25);
+}
+
