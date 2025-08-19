@@ -1,5 +1,5 @@
 (() => {
-  /* ===== 背面スクロールのロック ===== */
+  /* ===== 背面スクロール制御 ===== */
   const root = document.documentElement;
   function lockScroll(){ root.classList.add('no-scroll'); }
   function unlockScroll(){ root.classList.remove('no-scroll'); }
@@ -14,11 +14,12 @@
           "*"
         );
       }catch(e){}
-      ifr.src = ""; // フォールバック
+      // フォールバック（完全停止）
+      ifr.src = "";
     });
   }
 
-  /* ===== パネル共通 ===== */
+  /* ===== モーダルの開閉 ===== */
   function bindPanel(panelEl){
     const overlay = panelEl.querySelector('.overlay');
     const closeBtn = panelEl.querySelector('.panel-close');
@@ -46,17 +47,19 @@
     document.addEventListener('keydown', panelEl._esc);
     lockScroll();
 
-    // 再オープン時：停止状態なら現在インデックスで復元
-    const frame = panelEl.querySelector('[data-role="frame"]');
-    if (frame && !frame.src && typeof panelEl._currentIndex === 'number'){
-      selectVideo(panelEl, panelEl._currentIndex, /*autoplay*/false);
+    // 開いた瞬間に現在インデックスの動画を必ず読み込む（再生準備OK）
+    if (panelEl._videos && panelEl._els){
+      const idx = (typeof panelEl._currentIndex === 'number') ? panelEl._currentIndex : 0;
+      selectVideo(panelEl, idx, /*autoplay*/false, /*force*/true);
     }
   }
 
   function hidePanel(panelEl){
     panelEl.classList.add('hidden');
     document.removeEventListener('keydown', panelEl._esc);
-    const anyOpen = document.querySelectorAll('.panel:not(.hidden)').length > 0;
+
+    // ★修正ポイント：本当に開いている“モーダルコンテナ”が無いときだけ解除
+    const anyOpen = !!document.querySelector('[data-modal]:not(.hidden)');
     if(!anyOpen) unlockScroll();
   }
 
@@ -77,16 +80,13 @@
     { id: "nkOJ3OriYlE", title: "flowers for m[A]chines", desc: "いい感じの言葉を入れる"},
   ];
 
-  // ★ここに「基本操作」用の動画IDを入れてください
   const videosBasics = [
-    { id: "K21PFonrmVo", title: "基礎操作", desc: "攻撃モーション"},
-    { id: "jCMOUmEyZ7E", title: "移動方法", desc: "ダッシュ、動物"},
-    { id: "BNadVOMQhnE", title: "戦闘方法", desc: "ダメージグリッチとスローモーション"},
-    { id: "EbJ3VxSnuvE", title: "簡単なテクニック", desc: "ダブルリフトとダイアログスキップ"},
-    { id: "ShkgsCS19gs", title: "移動方法比較", desc: "移動方法比較"},
+    { id: "dQw4w9WgXcQ", title: "操作の基礎（移動/回避/射撃）", desc: "移動・ロックオン・回避の基礎と弾幕の捌き方。"},
+    { id: "3JZ_D3ELwOQ", title: "近接/遠隔の連携", desc: "武器切替・ジャンプキャンセル・射撃の連携。"},
+    { id: "L_jWHffIx5E", title: "ポッドプログラム入門", desc: "代表的なポッドの使い分けと基本運用。"}
   ];
 
-  /* ===== 汎用：動画パネルの初期化 ===== */
+  /* ===== 汎用：動画パネル初期化 ===== */
   function initVideoPanel(panelEl, videos, defaultIndex=0){
     panelEl._videos = videos;
     panelEl._currentIndex = defaultIndex;
@@ -112,22 +112,30 @@
 
     panelEl._els = { listEl, frameEl, descEl, countEl };
     buildList();
-    selectVideo(panelEl, defaultIndex, /*autoplay*/false);
+
+    // 初期表示：ページロード直後でも1本目を読み込んでおく（再生はしない）
+    selectVideo(panelEl, defaultIndex, /*autoplay*/false, /*force*/true);
   }
 
-  function selectVideo(panelEl, index, autoplay=false){
+  // ★修正：同じインデックスでも iframe が空なら再読込する
+  function selectVideo(panelEl, index, autoplay=false, force=false){
     const { listEl, frameEl, descEl } = panelEl._els;
     const videos = panelEl._videos;
-    if(index === panelEl._currentIndex) return;
+
+    const frameEmpty = !frameEl.src || frameEl.src === 'about:blank';
+    if(!force && index === panelEl._currentIndex && !frameEmpty){
+      // すでに同じ動画が読み込まれている
+      return;
+    }
 
     panelEl._currentIndex = index;
 
-    // list highlight
+    // ハイライト更新
     [...listEl.querySelectorAll('.vbtn')].forEach((b, i)=>{
       b.setAttribute('aria-selected', String(i===index));
     });
 
-    // set video
+    // 埋め込みセット
     const v = videos[index];
     const params = autoplay
       ? "?autoplay=1&rel=0&modestbranding=1&enablejsapi=1"
@@ -137,17 +145,20 @@
     if(descEl) descEl.textContent = v.desc || "";
   }
 
-  // 初期化（両パネル）
-  initVideoPanel(routePanel,  videosRoute, 0);
+  // 初期化
+  const routePanel = document.getElementById('panel-video-route');
+  const basicsPanel = document.getElementById('panel-video-basics');
+  initVideoPanel(routePanel,  videosRoute,  0);
   initVideoPanel(basicsPanel, videosBasics, 0);
 
-  // メニュー → 各パネルを開く
+  // メニュー操作
+  const beginnerPanelEl = document.getElementById('panel-beginner');
   document.getElementById('open-route')?.addEventListener('click', ()=>{
-    hidePanel(beginnerPanel);
+    hidePanel(beginnerPanelEl);
     showPanel(routePanel);
   });
   document.getElementById('open-basics')?.addEventListener('click', ()=>{
-    hidePanel(beginnerPanel);
+    hidePanel(beginnerPanelEl);
     showPanel(basicsPanel);
   });
 })();
