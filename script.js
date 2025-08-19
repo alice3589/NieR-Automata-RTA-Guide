@@ -81,9 +81,10 @@
   ];
 
   const videosBasics = [
-    { id: "dQw4w9WgXcQ", title: "操作の基礎（移動/回避/射撃）", desc: "移動・ロックオン・回避の基礎と弾幕の捌き方。"},
-    { id: "3JZ_D3ELwOQ", title: "近接/遠隔の連携", desc: "武器切替・ジャンプキャンセル・射撃の連携。"},
-    { id: "L_jWHffIx5E", title: "ポッドプログラム入門", desc: "代表的なポッドの使い分けと基本運用。"}
+    { id: "jCMOUmEyZ7E", title: "移動方法", desc: "ダッシュ、動物"},
+    { id: "BNadVOMQhnE", title: "戦闘方法", desc: "ダメージグリッチとスローモーション"},
+    { id: "EbJ3VxSnuvE", title: "簡単なテクニック", desc: "ダブルリフトとダイアログスキップ"},
+    { id: "ShkgsCS19gs", title: "移動方法比較", desc: "移動方法比較"},
   ];
 
   /* ===== 汎用：動画パネル初期化 ===== */
