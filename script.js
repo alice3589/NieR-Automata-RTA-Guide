@@ -58,16 +58,19 @@
     panelEl.classList.add('hidden');
     document.removeEventListener('keydown', panelEl._esc);
 
-    // ★修正ポイント：本当に開いている“モーダルコンテナ”が無いときだけ解除
+    // 本当に開いている“モーダルコンテナ”が無いときだけ解除
     const anyOpen = !!document.querySelector('[data-modal]:not(.hidden)');
     if(!anyOpen) unlockScroll();
   }
 
+  // ===== モーダル登録 =====
   const beginnerPanel = document.getElementById('panel-beginner');
   const routePanel    = document.getElementById('panel-video-route');
   const basicsPanel   = document.getElementById('panel-video-basics');
-  [beginnerPanel, routePanel, basicsPanel].forEach(bindPanel);
+  const settingsPanel = document.getElementById('panel-settings');
+  [beginnerPanel, routePanel, basicsPanel, settingsPanel].forEach(p => p && bindPanel(p));
 
+  // メニュー：初心者ガイドを開く
   document.getElementById('btn-beginner')?.addEventListener('click', ()=> showPanel(beginnerPanel));
 
   /* ===== 動画データ ===== */
@@ -89,6 +92,8 @@
 
   /* ===== 汎用：動画パネル初期化 ===== */
   function initVideoPanel(panelEl, videos, defaultIndex=0){
+    if(!panelEl) return;
+
     panelEl._videos = videos;
     panelEl._currentIndex = defaultIndex;
 
@@ -114,19 +119,18 @@
     panelEl._els = { listEl, frameEl, descEl, countEl };
     buildList();
 
-    // 初期表示：ページロード直後でも1本目を読み込んでおく（再生はしない）
+    // 初期表示：1本目を読み込んでおく（再生はしない）
     selectVideo(panelEl, defaultIndex, /*autoplay*/false, /*force*/true);
   }
 
-  // ★修正：同じインデックスでも iframe が空なら再読込する
+  // 同じインデックスでも iframe が空なら再読込する
   function selectVideo(panelEl, index, autoplay=false, force=false){
     const { listEl, frameEl, descEl } = panelEl._els;
     const videos = panelEl._videos;
 
     const frameEmpty = !frameEl.src || frameEl.src === 'about:blank';
     if(!force && index === panelEl._currentIndex && !frameEmpty){
-      // すでに同じ動画が読み込まれている
-      return;
+      return; // すでに同じ動画が読み込まれている
     }
 
     panelEl._currentIndex = index;
@@ -146,18 +150,48 @@
     if(descEl) descEl.textContent = v.desc || "";
   }
 
-  // 初期化
+  // 初期化（動画パネル）
   initVideoPanel(routePanel,  videosRoute,  0);
   initVideoPanel(basicsPanel, videosBasics, 0);
 
-  // メニュー操作
-  const beginnerPanelEl = document.getElementById('panel-beginner');
+  // メニュー → 各モーダル
   document.getElementById('open-route')?.addEventListener('click', ()=>{
-    hidePanel(beginnerPanelEl);
+    hidePanel(beginnerPanel);
     showPanel(routePanel);
   });
   document.getElementById('open-basics')?.addEventListener('click', ()=>{
-    hidePanel(beginnerPanelEl);
+    hidePanel(beginnerPanel);
     showPanel(basicsPanel);
   });
+  document.getElementById('open-settings')?.addEventListener('click', ()=>{
+    hidePanel(beginnerPanel);
+    showPanel(settingsPanel);
+  });
+
+  /* ===== 設定タブ切替 ===== */
+  (() => {
+    if(!settingsPanel) return;
+    const tabJP = settingsPanel.querySelector('#tab-jp');
+    const tabEN = settingsPanel.querySelector('#tab-en');
+    const jp    = settingsPanel.querySelector('#settings-jp');
+    const en    = settingsPanel.querySelector('#settings-en');
+
+    if(!tabJP || !tabEN || !jp || !en) return;
+
+    function showJP(){
+      tabJP.setAttribute('aria-selected','true');
+      tabEN.setAttribute('aria-selected','false');
+      jp.classList.remove('hidden');
+      en.classList.add('hidden'); en.setAttribute('aria-hidden','true');
+    }
+    function showEN(){
+      tabJP.setAttribute('aria-selected','false');
+      tabEN.setAttribute('aria-selected','true');
+      jp.classList.add('hidden');
+      en.classList.remove('hidden'); en.removeAttribute('aria-hidden');
+    }
+
+    tabJP.addEventListener('click', showJP);
+    tabEN.addEventListener('click', showEN);
+  })();
 })();

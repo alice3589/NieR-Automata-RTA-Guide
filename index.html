@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"/>
   <title>NieR:Automata RTA Guide</title>
-  <link rel="stylesheet" href="styles.css?v=fix1">
+  <link rel="stylesheet" href="styles.css?v=final">
 </head>
 <body>
 
@@ -49,7 +49,7 @@
     <div class="panel-body">
       <div class="panel-list">
         <button id="open-basics" type="button">ゲームの基本操作</button>
-        <button type="button" onclick="location.href='https://docs.google.com/document/d/15UwPz94cOcWtvj_SNK-veAi_WPB-85i_vZF_J7SjNAQ/edit?tab=t.0#heading=h.4b9ufdfn3sjf'">設定・画面調整</button>
+        <button id="open-settings" type="button">設定・画面調整</button>
         <button id="open-route" type="button">初心者向けルート</button>
         <button type="button" onclick="location.href='https://www.speedrun.com/ja-JP/na/guides/28iic'">用語集</button>
       </div>
@@ -109,6 +109,63 @@
   </div>
 </div>
 
-<script src="script.js?v=fix1" defer></script>
+<!-- 設定・画面調整（モーダル） -->
+<div id="panel-settings" class="hidden" data-modal>
+  <div class="overlay"></div>
+  <div class="panel panel--wide" role="dialog" aria-modal="true" aria-labelledby="panel-settings-title">
+    <button type="button" class="panel-close" aria-label="閉じる">×</button>
+    <div class="panel-header"><h3 id="panel-settings-title">設定・画面調整</h3></div>
+
+    <div class="panel-body">
+      <!-- タブ切替 -->
+      <div class="settings-switch">
+        <button id="tab-jp" class="stab" type="button" aria-selected="true">日本人走者の設定</button>
+        <button id="tab-en" class="stab" type="button" aria-selected="false">海外走者の設定はこちら</button>
+      </div>
+
+      <!-- 日本人走者：画像ギャラリー -->
+      <section id="settings-jp" class="settings-grid">
+        <!-- 画像は差し替えてOK。例として4名分 -->
+        <figure class="settings-card">
+          <img src="assets/settings/jp_runner_1.jpg" alt="Runner A の設定" loading="lazy">
+          <figcaption>Runner A（安定重視）<br>FHD/60fps/VSync Off/影 低/AA 低</figcaption>
+        </figure>
+
+        <figure class="settings-card">
+          <img src="assets/settings/jp_runner_2.jpg" alt="Runner B の設定" loading="lazy">
+          <figcaption>Runner B（入力遅延最小）<br>ボーダーレス/モーションブラー Off</figcaption>
+        </figure>
+
+        <figure class="settings-card">
+          <img src="assets/settings/jp_runner_3.jpg" alt="Runner C の設定" loading="lazy">
+          <figcaption>Runner C（配信向け）<br>FHD/60fps/遠景 低/HUD最小</figcaption>
+        </figure>
+
+        <figure class="settings-card">
+          <img src="assets/settings/jp_runner_4.jpg" alt="Runner D の設定" loading="lazy">
+          <figcaption>Runner D（軽量化）<br>1600×900/影 低/被写界深度 Off</figcaption>
+        </figure>
+        <!-- 枚数は自由に増やせます -->
+      </section>
+
+      <!-- 海外走者：外部リンクのみ -->
+      <section id="settings-en" class="hidden" aria-hidden="true">
+        <div class="ext-box">
+          <p>海外走者の設定は以下のドキュメントでまとまっています（英語）。</p>
+          <p>
+            <a class="ext-link"
+               href="https://docs.google.com/document/d/15UwPz94cOcWtvj_SNK-veAi_WPB-85i_vZF_J7SjNAQ/edit?tab=t.0#heading=h.4b9ufdfn3sjf"
+               target="_blank" rel="noopener">
+               海外走者の設定ドキュメント（英語）
+            </a>
+          </p>
+          <p class="note">※内容は各走者や環境で異なるため、参考としてご覧ください。</p>
+        </div>
+      </section>
+    </div>
+  </div>
+</div>
+
+<script src="script.js?v=final" defer></script>
 </body>
 </html>
