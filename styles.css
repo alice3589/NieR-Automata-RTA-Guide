@@ -298,3 +298,8 @@ img{ box-shadow:var(--boxShadow); }
 /* 追加 */
 .settings-grid.size-l  { grid-template-columns: repeat(auto-fit, minmax(340px, 1fr)); }
 .settings-grid.size-xl { grid-template-columns: repeat(auto-fit, minmax(420px, 1fr)); }
+
+/* 設定画像モーダルだけ一回り小さく */
+#panel-image .panel{
+  width: min(780px, 92vw) !important;  /* ← 好みで 760–820px 程度に調整可 */
+}
