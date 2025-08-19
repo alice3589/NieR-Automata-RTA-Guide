@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"/>
   <title>NieR:Automata RTA Guide</title>
-  <link rel="stylesheet" href="styles.css?v=final">
+  <link rel="stylesheet" href="styles.css?v=final2">
 </head>
 <body>
 
@@ -23,7 +23,7 @@
       <p>NieR:Automataの初心者向けRTAのガイドです。</p>
       <div class="vertical-buttons">
         <button id="btn-beginner" type="button">初心者ガイド</button>
-        <button type="button">カテゴリ解説</button>
+        <button id="btn-categories" type="button">カテゴリ解説</button>
         <button type="button">環境・ツール</button>
       </div>
     </div>
@@ -112,60 +112,40 @@
 <!-- 設定・画面調整（モーダル） -->
 <div id="panel-settings" class="hidden" data-modal>
   <div class="overlay"></div>
-  <div class="panel panel--wide panel--image" role="dialog" aria-modal="true" aria-labelledby="panel-settings-title">
+  <div class="panel panel--wide" role="dialog" aria-modal="true" aria-labelledby="panel-settings-title">
     <button type="button" class="panel-close" aria-label="閉じる">×</button>
     <div class="panel-header"><h3 id="panel-settings-title">設定・画面調整</h3></div>
 
     <div class="panel-body">
       <!-- タブ切替 -->
-      <div class="settings-switch">
-        <button id="tab-jp" class="stab" type="button" aria-selected="true">日本人走者の設定</button>
-        <button id="tab-en" class="stab" type="button" aria-selected="false">海外走者の設定はこちら</button>
+      <div class="settings-switch" role="tablist">
+        <button id="tab-jp" class="stab" type="button" role="tab" aria-selected="true">日本人走者の設定</button>
+        <button id="tab-en" class="stab" type="button" role="tab" aria-selected="false">海外走者の設定はこちら</button>
       </div>
 
       <!-- 日本人走者：画像ギャラリー -->
-      <section id="settings-jp" class="settings-grid">
-        <!-- 画像は差し替えてOK。例として4名分 -->
+      <section id="settings-jp" class="settings-grid" aria-labelledby="tab-jp">
+        <!-- 画像は差し替えOK。高解像度は data-full に -->
         <figure class="settings-card">
-          <img src="assets/settings/alice.png" alt="aliceの設定" loading="lazy">
-          <figcaption>alice<br><!-- 何か書くかも --></figcaption>
+          <img src="assets/settings/alice.png" data-full="assets/settings/alice.png" alt="aliceの設定" loading="lazy">
+          <figcaption>alice</figcaption>
         </figure>
-
         <figure class="settings-card">
-          <img src="assets/settings/jp_runner_2.jpg" alt="Runner B の設定" loading="lazy">
-          <figcaption>Runner B<br><!-- 何か書くかも --></figcaption>
+          <img src="assets/settings/jp_runner_2.jpg" data-full="assets/settings/jp_runner_2.jpg" alt="Runner B の設定" loading="lazy">
+          <figcaption>Runner B</figcaption>
         </figure>
-
         <figure class="settings-card">
-          <img src="assets/settings/jp_runner_3.jpg" alt="Runner C の設定" loading="lazy">
-          <figcaption>Runner C<br><!-- 何か書くかも --></figcaption>
+          <img src="assets/settings/jp_runner_3.jpg" data-full="assets/settings/jp_runner_3.jpg" alt="Runner C の設定" loading="lazy">
+          <figcaption>Runner C</figcaption>
         </figure>
-
         <figure class="settings-card">
-          <img src="assets/settings/jp_runner_4.jpg" alt="Runner D の設定" loading="lazy">
-          <figcaption>Runner D<br><!-- 何か書くかも --></figcaption>
+          <img src="assets/settings/jp_runner_4.jpg" data-full="assets/settings/jp_runner_4.jpg" alt="Runner D の設定" loading="lazy">
+          <figcaption>Runner D</figcaption>
         </figure>
-        <!-- 枚数は自由に増やせます -->
       </section>
 
-      <!-- 画像ビューア（モーダル） -->
-<div id="panel-image" class="hidden" data-modal>
-  <div class="overlay"></div>
-  <!-- ▼ここに panel--wide を追加 -->
-  <div class="panel panel--wide panel--image" role="dialog" aria-modal="true" aria-labelledby="panel-image-title">
-    <button type="button" class="panel-close" aria-label="閉じる">×</button>
-    <div class="panel-header"><h3 id="panel-image-title">設定画像</h3></div>
-    <div class="panel-body">
-      <div class="image-wrap">
-        <img id="viewer-img" alt="">
-      </div>
-      <div class="image-caption" id="viewer-caption"></div>
-    </div>
-  </div>
-</div>
-
       <!-- 海外走者：外部リンクのみ -->
-      <section id="settings-en" class="hidden" aria-hidden="true">
+      <section id="settings-en" class="hidden" aria-hidden="true" aria-labelledby="tab-en">
         <div class="ext-box">
           <p>海外走者の設定は以下のドキュメントでまとまっています（英語）。</p>
           <p>
@@ -182,6 +162,43 @@
   </div>
 </div>
 
-<script src="script.js?v=final" defer></script>
+<!-- 画像ビューア（モーダル：設定画像拡大） -->
+<div id="panel-image" class="hidden" data-modal>
+  <div class="overlay"></div>
+  <div class="panel panel--wide panel--image" role="dialog" aria-modal="true" aria-labelledby="panel-image-title">
+    <button type="button" class="panel-close" aria-label="閉じる">×</button>
+    <div class="panel-header"><h3 id="panel-image-title">設定画像</h3></div>
+    <div class="panel-body">
+      <div class="image-wrap">
+        <img id="viewer-img" alt="">
+      </div>
+      <div class="image-caption" id="viewer-caption"></div>
+    </div>
+  </div>
+</div>
+
+<!-- カテゴリ解説（モーダル） -->
+<div id="panel-categories" class="hidden" data-modal>
+  <div class="overlay"></div>
+  <div class="panel panel--wide" role="dialog" aria-modal="true" aria-labelledby="panel-categories-title">
+    <button type="button" class="panel-close" aria-label="閉じる">×</button>
+    <div class="panel-header"><h3 id="panel-categories-title">カテゴリ解説</h3></div>
+    <div class="panel-body">
+      <div class="video-layout">
+        <div class="video-list" data-role="list"></div>
+        <div class="info-card">
+          <div class="info-body">
+            <h4 class="info-title" data-role="title">タイトル</h4>
+            <p class="info-desc" data-role="desc">ここにカテゴリの説明が入ります。</p>
+            <div class="info-note" data-role="note"></div>
+            <div class="count" data-role="count">カテゴリ数: 0</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script src="script.js?v=final2" defer></script>
 </body>
 </html>

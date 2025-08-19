@@ -129,10 +129,10 @@ img{ box-shadow:var(--boxShadow); }
 .panel-list button:hover{ background:rgba(77,73,62,.1); }
 .hidden{ display:none !important; }
 
-/* 幅広パネル（動画・設定に使用） */
+/* 幅広パネル（動画・設定・画像で共通幅） */
 .panel--wide{ width:min(900px, 95vw); }
 
-/* 動画パネル共通 */
+/* 動画パネル（左リスト + 右カード） */
 .video-layout{ display:grid; grid-template-columns: 300px 1fr; gap:1rem; padding:1rem; }
 .video-list{ border-right:1px solid rgba(77,73,62,.25); padding-right:1rem; }
 .video-list .vbtn{
@@ -144,7 +144,7 @@ img{ box-shadow:var(--boxShadow); }
 .video-list .vbtn:hover,
 .video-list .vbtn:focus,
 .video-list .vbtn[aria-selected="true"]{ color:var(--color); }
-/* 共通ボタンの飾りを無効化 */
+/* 共通ボタン装飾の解除 */
 .video-list .vbtn::before, .video-list .vbtn::after{ content:none; }
 .video-list .vbtn:hover{ background:rgba(77,73,62,.10); }
 .video-list .vbtn[aria-selected="true"]{ background:rgba(77,73,62,.12); }
@@ -156,12 +156,23 @@ img{ box-shadow:var(--boxShadow); }
 .video-card .meta{ display:flex; justify-content:space-between; align-items:flex-end; padding:1rem; min-height:80px; }
 .video-card .desc, .video-card .count{ font-size:.95rem; }
 
+/* カテゴリ解説カード */
+.info-card{
+  border:2px solid var(--color);
+  background:var(--bgColor);
+  box-shadow:var(--boxShadow);
+}
+.info-body{ padding:1rem; line-height:1.7; }
+.info-title{ margin:.25rem 0 1rem; font-weight:500; }
+.info-desc{ margin:0 0 .75rem; }
+.info-note{ font-size:.9rem; opacity:.9; }
+
 /* 設定: タブ */
 .settings-switch{ display:flex; gap:.5rem; padding:1rem; border-bottom:1px solid rgba(77,73,62,.25); }
 .stab{ background:transparent; border:1px solid rgba(77,73,62,.25); padding:.4rem .8rem; cursor:pointer; }
-.stab::before,.stab::after{ content:none; } /* 既存ボタン装飾を打ち消し */
+.stab::before,.stab::after{ content:none; } /* 既存ボタン装飾を無効化 */
 .stab[aria-selected="true"]{ background:rgba(77,73,62,.12); }
-/* タブの文字色を常に固定（押下時/選択時/ホバー時も変えない） */
+/* タブの文字色は常に固定 */
 .settings-switch .stab,
 .settings-switch .stab:hover,
 .settings-switch .stab:focus,
@@ -186,7 +197,7 @@ img{ box-shadow:var(--boxShadow); }
 .settings-card img{
   width:100%; aspect-ratio:16/9; object-fit:cover; display:block;
   box-shadow: inset 0 0 0 1px rgba(77,73,62,.12);
-  cursor: zoom-in; /* クリックで拡大のヒント */
+  cursor: zoom-in;
 }
 .settings-card figcaption{
   padding:.6rem .8rem; font-size:.95rem; line-height:1.4;
@@ -198,8 +209,11 @@ img{ box-shadow:var(--boxShadow); }
 .ext-link{ text-decoration: underline; }
 .note{ opacity:.85; font-size:.9rem; }
 
-/* 画像ビューア（固定幅は指定しない＝可変） */
-.panel--image{ overflow: hidden; } /* 幅指定はしない（固定サイズを削除） */
+/* 画像ビューア（設定画像拡大） */
+/* 幅は panel--wide に従う。設定画像だけ少し小さめ */
+#panel-image .panel{
+  width: min(780px, 92vw) !important; /* ← “一回り小さく” */
+}
 .panel--image .panel-body{
   max-height: calc(100dvh - 6rem);
 }
@@ -212,7 +226,7 @@ img{ box-shadow:var(--boxShadow); }
   max-width: 100%;
   max-height: 100%;
   width: auto; height: auto;
-  object-fit: contain;               /* 横/縦の切れ防止 */
+  object-fit: contain;     /* 横/縦の切れ防止 */
   display: block;
   box-shadow: var(--boxShadow);
 }
@@ -244,62 +258,4 @@ img{ box-shadow:var(--boxShadow); }
     padding-left:max(0px, env(safe-area-inset-left));
     padding-right:max(0px, env(safe-area-inset-right));
   }
-}
-
-/* ===== 画像ビューアの見切れ対策（上書き） ===== */
-
-/* モーダル枠に合わせて“中身でサイズが決まる”ようにし、横スクロールは出さない */
-
-
-/* ビューアの表示領域：画面内に必ず収まる箱を作る */
-.panel--image .image-wrap{
-  padding: .75rem;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  max-width: calc(100vw - 3rem);      /* 左右マージン分を差し引く */
-  max-height: calc(100dvh - 10rem);   /* ヘッダー/余白分を差し引く */
-}
-
-/* 画像は“contain”で必ず全体が見えるようにする（横も縦も切らない） */
-#viewer-img{
-  width: 100%;
-  height: 100%;
-  max-width: 100%;
-  max-height: 100%;
-  object-fit: contain;    /* 重要：切り抜かず縮小して収める */
-  display: block;
-}
-
-/* 小画面での余白を少しタイトに */
-@media (max-width: 560px){
-  .panel--image .image-wrap{
-    max-width: calc(100vw - 1.5rem);
-    max-height: calc(100dvh - 9rem);
-    padding: .5rem;
-  }
-}
-
-/* 画像ビューアの表示領域を広げる（縦方向の余白を減らす） */
-.panel--image .panel-body{
-  max-height: calc(100dvh - 4rem); /* 6rem → 4rem で広く */
-}
-.panel--image .image-wrap{
-  max-height: calc(100dvh - 4.5rem); /* 7rem → 4.5rem */
-  padding: .25rem; /* 余白も少しだけタイトに */
-}
-/* 画像は枠いっぱいに“切らずに”拡大 */
-#viewer-img{
-  max-width: 100%;
-  max-height: 100%;
-  object-fit: contain;
-}
-
-/* 追加 */
-.settings-grid.size-l  { grid-template-columns: repeat(auto-fit, minmax(340px, 1fr)); }
-.settings-grid.size-xl { grid-template-columns: repeat(auto-fit, minmax(420px, 1fr)); }
-
-/* 設定画像モーダルだけ一回り小さく */
-#panel-image .panel{
-  width: min(780px, 92vw) !important;  /* ← 好みで 760–820px 程度に調整可 */
 }
