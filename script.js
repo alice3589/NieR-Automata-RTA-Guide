@@ -259,7 +259,7 @@
 
     // データ（文言は適宜編集OK）
     const categoriesData = [
-      { key:"A",        title:"A",        desc:"Aルート（Any%）の概説・想定ルート・注意点。" },
+      { key:"A",        title:"A",        desc:"現在説明を作成中" },
       { key:"A VC3Mod", title:"A VC3Mod", desc:"VC3Mod使用時の差分・導入に伴うルート上の変更点。" },
       { key:"Prolouge", title:"Prolouge", desc:"プロローグ区間の項目別解説。※要求どおり 'Prolouge' 表記。" },
       { key:"E",        title:"E",        desc:"Eエンドに関わるカテゴリの要点・分岐条件メモ。" },
